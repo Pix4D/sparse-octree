@@ -4,7 +4,7 @@
 	"description": "A sparse octree data structure.",
 	"homepage": "https://github.com/vanruesc/sparse-octree",
 	"main": "build/sparse-octree.js",
-	"module": "src/index.js",
+	"typings": "src/typings.d.ts",
 	"license": "Zlib",
 
 	"keywords": [
@@ -37,6 +37,7 @@
 	],
 
 	"scripts": {
+		"build": "grunt",
 		"test": "grunt --production"
 	},
 

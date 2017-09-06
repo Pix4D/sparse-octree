@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 				moduleName: "<%= package.name.replace(/-/g, \"\").toUpperCase() %>",
 				banner: "<%= banner %>"
 			},
-			src: "<%= package.module %>",
+			src: "src/index.js",
 			dest: "build/<%= package.name %>.js"
 		},
 
