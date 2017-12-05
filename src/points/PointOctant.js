@@ -1,4 +1,4 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 import { Octant } from "../core/Octant.js";
 
 /**
@@ -56,7 +56,7 @@ export class PointOctant extends Octant {
 
 		const clampedPoint = p.copy(point).clamp(this.min, this.max);
 
-		return clampedPoint.sub(point).lengthSquared();
+		return clampedPoint.sub(point).lengthSq();
 
 	}
 

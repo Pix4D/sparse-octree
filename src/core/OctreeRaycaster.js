@@ -1,4 +1,4 @@
-import { Box3, Ray, Vector3 } from "math-ds";
+import { Box3, Ray, Vector3 } from "three";
 
 /**
  * A list of vectors.
