@@ -567,9 +567,9 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/core/CubicOctant.js",
-    "content": "import { Vector3 } from \"math-ds\";\r\nimport { pattern } from \"./Octant.js\";\r\n\r\n/**\r\n * A vector.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n */\r\n\r\nconst c = new Vector3();\r\n\r\n/**\r\n * A cubic octant.\r\n */\r\n\r\nexport class CubicOctant {\r\n\r\n\t/**\r\n\t * Constructs a new cubic octant.\r\n\t *\r\n\t * @param {Vector3} [min] - The lower bounds.\r\n\t * @param {Number} [size=0] - The size of the octant.\r\n\t */\r\n\r\n\tconstructor(min = new Vector3(), size = 0) {\r\n\r\n\t\t/**\r\n\t\t * The lower bounds of this octant.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t */\r\n\r\n\t\tthis.min = min;\r\n\r\n\t\t/**\r\n\t\t * The size of this octant.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t */\r\n\r\n\t\tthis.size = size;\r\n\r\n\t\t/**\r\n\t\t * The children of this octant.\r\n\t\t *\r\n\t\t * @type {CubicOctant[]}\r\n\t\t * @default null\r\n\t\t */\r\n\r\n\t\tthis.children = null;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * The upper bounds of this octant.\r\n\t *\r\n\t * Accessing this property always creates a new vector.\r\n\t *\r\n\t * @type {Vector3}\r\n\t */\r\n\r\n\tget max() {\r\n\r\n\t\treturn this.min.clone().addScalar(this.size);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Computes the center of this octant.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the center of this octant.\r\n\t */\r\n\r\n\tgetCenter(target = new Vector3()) {\r\n\r\n\t\treturn target.copy(this.min).addScalar(this.size * 0.5);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Returns the size of this octant as a vector.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the size of this octant.\r\n\t */\r\n\r\n\tgetDimensions(target = new Vector3()) {\r\n\r\n\t\treturn target.set(this.size, this.size, this.size);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Splits this octant into eight smaller ones.\r\n\t */\r\n\r\n\tsplit() {\r\n\r\n\t\tconst min = this.min;\r\n\t\tconst mid = this.getCenter(c);\r\n\t\tconst halfSize = this.size * 0.5;\r\n\r\n\t\tconst children = this.children = [\r\n\r\n\t\t\tnull, null,\r\n\t\t\tnull, null,\r\n\t\t\tnull, null,\r\n\t\t\tnull, null\r\n\r\n\t\t];\r\n\r\n\t\tlet i, combination;\r\n\r\n\t\tfor(i = 0; i < 8; ++i) {\r\n\r\n\t\t\tcombination = pattern[i];\r\n\r\n\t\t\tchildren[i] = new this.constructor(\r\n\r\n\t\t\t\tnew Vector3(\r\n\t\t\t\t\t(combination[0] === 0) ? min.x : mid.x,\r\n\t\t\t\t\t(combination[1] === 0) ? min.y : mid.y,\r\n\t\t\t\t\t(combination[2] === 0) ? min.z : mid.z\r\n\t\t\t\t),\r\n\r\n\t\t\t\thalfSize\r\n\r\n\t\t\t);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "import { Vector3 } from \"three\";\nimport { pattern } from \"./Octant.js\";\n\n/**\n * A vector.\n *\n * @type {Vector3}\n * @private\n */\n\nconst c = new Vector3();\n\n/**\n * A cubic octant.\n */\n\nexport class CubicOctant {\n\n\t/**\n\t * Constructs a new cubic octant.\n\t *\n\t * @param {Vector3} [min] - The lower bounds.\n\t * @param {Number} [size=0] - The size of the octant.\n\t */\n\n\tconstructor(min = new Vector3(), size = 0) {\n\n\t\t/**\n\t\t * The lower bounds of this octant.\n\t\t *\n\t\t * @type {Vector3}\n\t\t */\n\n\t\tthis.min = min;\n\n\t\t/**\n\t\t * The size of this octant.\n\t\t *\n\t\t * @type {Number}\n\t\t */\n\n\t\tthis.size = size;\n\n\t\t/**\n\t\t * The children of this octant.\n\t\t *\n\t\t * @type {CubicOctant[]}\n\t\t * @default null\n\t\t */\n\n\t\tthis.children = null;\n\n\t}\n\n\t/**\n\t * The upper bounds of this octant.\n\t *\n\t * Accessing this property always creates a new vector.\n\t *\n\t * @type {Vector3}\n\t */\n\n\tget max() {\n\n\t\treturn this.min.clone().addScalar(this.size);\n\n\t}\n\n\t/**\n\t * Computes the center of this octant.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the center of this octant.\n\t */\n\n\tgetCenter(target = new Vector3()) {\n\n\t\treturn target.copy(this.min).addScalar(this.size * 0.5);\n\n\t}\n\n\t/**\n\t * Returns the size of this octant as a vector.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the size of this octant.\n\t */\n\n\tgetDimensions(target = new Vector3()) {\n\n\t\treturn target.set(this.size, this.size, this.size);\n\n\t}\n\n\t/**\n\t * Splits this octant into eight smaller ones.\n\t */\n\n\tsplit() {\n\n\t\tconst min = this.min;\n\t\tconst mid = this.getCenter(c);\n\t\tconst halfSize = this.size * 0.5;\n\n\t\tconst children = this.children = [\n\n\t\t\tnull, null,\n\t\t\tnull, null,\n\t\t\tnull, null,\n\t\t\tnull, null\n\n\t\t];\n\n\t\tlet i, combination;\n\n\t\tfor(i = 0; i < 8; ++i) {\n\n\t\t\tcombination = pattern[i];\n\n\t\t\tchildren[i] = new this.constructor(\n\n\t\t\t\tnew Vector3(\n\t\t\t\t\t(combination[0] === 0) ? min.x : mid.x,\n\t\t\t\t\t(combination[1] === 0) ? min.y : mid.y,\n\t\t\t\t\t(combination[2] === 0) ? min.z : mid.z\n\t\t\t\t),\n\n\t\t\t\thalfSize\n\n\t\t\t);\n\n\t\t}\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/CubicOctant.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/CubicOctant.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -817,27 +817,16 @@
   {
     "__docId__": 59,
     "kind": "file",
-    "name": "src/core/index.js",
-    "content": "/**\r\n * Core components.\r\n *\r\n * @module sparse-octree/core\r\n */\r\n\r\nexport { CubicOctant } from \"./CubicOctant.js\";\r\nexport { Octree } from \"./Octree.js\";\r\nexport { Octant, pattern, edges } from \"./Octant.js\";\r\nexport { OctantIterator } from \"./OctantIterator.js\";\r\nexport { OctreeRaycaster } from \"./OctreeRaycaster.js\";\r\n",
+    "name": "src/core/Octant.js",
+    "content": "import { Vector3 } from \"three\";\n\n/**\n * A vector.\n *\n * @type {Vector3}\n * @private\n */\n\nconst c = new Vector3();\n\n/**\n * An octant.\n */\n\nexport class Octant {\n\n\t/**\n\t * Constructs a new octant.\n\t *\n\t * @param {Vector3} [min] - The lower bounds.\n\t * @param {Vector3} [max] - The upper bounds.\n\t */\n\n\tconstructor(min = new Vector3(), max = new Vector3()) {\n\n\t\t/**\n\t\t * The lower bounds of this octant.\n\t\t *\n\t\t * @type {Vector3}\n\t\t */\n\n\t\tthis.min = min;\n\n\t\t/**\n\t\t * The upper bounds of the octant.\n\t\t *\n\t\t * @type {Vector3}\n\t\t */\n\n\t\tthis.max = max;\n\n\t\t/**\n\t\t * The children of this octant.\n\t\t *\n\t\t * @type {Octant[]}\n\t\t * @default null\n\t\t */\n\n\t\tthis.children = null;\n\n\t}\n\n\t/**\n\t * Computes the center of this octant.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the center of this octant.\n\t */\n\n\tgetCenter(target = new Vector3()) {\n\n\t\treturn target.addVectors(this.min, this.max).multiplyScalar(0.5);\n\n\t}\n\n\t/**\n\t * Computes the size of this octant.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the size of this octant.\n\t */\n\n\tgetDimensions(target = new Vector3()) {\n\n\t\treturn target.subVectors(this.max, this.min);\n\n\t}\n\n\t/**\n\t * Splits this octant into eight smaller ones.\n\t */\n\n\tsplit() {\n\n\t\tconst min = this.min;\n\t\tconst max = this.max;\n\t\tconst mid = this.getCenter(c);\n\n\t\tconst children = this.children = [\n\n\t\t\tnull, null,\n\t\t\tnull, null,\n\t\t\tnull, null,\n\t\t\tnull, null\n\n\t\t];\n\n\t\tlet i, combination;\n\n\t\tfor(i = 0; i < 8; ++i) {\n\n\t\t\tcombination = pattern[i];\n\n\t\t\tchildren[i] = new this.constructor(\n\n\t\t\t\tnew Vector3(\n\t\t\t\t\t(combination[0] === 0) ? min.x : mid.x,\n\t\t\t\t\t(combination[1] === 0) ? min.y : mid.y,\n\t\t\t\t\t(combination[2] === 0) ? min.z : mid.z\n\t\t\t\t),\n\n\t\t\t\tnew Vector3(\n\t\t\t\t\t(combination[0] === 0) ? mid.x : max.x,\n\t\t\t\t\t(combination[1] === 0) ? mid.y : max.y,\n\t\t\t\t\t(combination[2] === 0) ? mid.z : max.z\n\t\t\t\t)\n\n\t\t\t);\n\n\t\t}\n\n\t}\n\n}\n\n/**\n * A binary pattern that describes the standard octant layout:\n *\n * ```text\n *    3____7\n *  2/___6/|\n *  | 1__|_5\n *  0/___4/\n * ```\n *\n * This common layout is crucial for positional assumptions.\n *\n * @type {Uint8Array[]}\n */\n\nexport const pattern = [\n\n\tnew Uint8Array([0, 0, 0]),\n\tnew Uint8Array([0, 0, 1]),\n\tnew Uint8Array([0, 1, 0]),\n\tnew Uint8Array([0, 1, 1]),\n\n\tnew Uint8Array([1, 0, 0]),\n\tnew Uint8Array([1, 0, 1]),\n\tnew Uint8Array([1, 1, 0]),\n\tnew Uint8Array([1, 1, 1])\n\n];\n\n/**\n * Describes all possible octant corner connections.\n *\n * @type {Uint8Array[]}\n */\n\nexport const edges = [\n\n\t// X-Axis.\n\tnew Uint8Array([0, 4]),\n\tnew Uint8Array([1, 5]),\n\tnew Uint8Array([2, 6]),\n\tnew Uint8Array([3, 7]),\n\n\t// Y-Axis.\n\tnew Uint8Array([0, 2]),\n\tnew Uint8Array([1, 3]),\n\tnew Uint8Array([4, 6]),\n\tnew Uint8Array([5, 7]),\n\n\t// Z-Axis.\n\tnew Uint8Array([0, 1]),\n\tnew Uint8Array([2, 3]),\n\tnew Uint8Array([4, 5]),\n\tnew Uint8Array([6, 7])\n\n];\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/index.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/Octant.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
     "__docId__": 60,
-    "kind": "file",
-    "name": "src/core/Octant.js",
-    "content": "import { Vector3 } from \"math-ds\";\r\n\r\n/**\r\n * A vector.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n */\r\n\r\nconst c = new Vector3();\r\n\r\n/**\r\n * An octant.\r\n */\r\n\r\nexport class Octant {\r\n\r\n\t/**\r\n\t * Constructs a new octant.\r\n\t *\r\n\t * @param {Vector3} [min] - The lower bounds.\r\n\t * @param {Vector3} [max] - The upper bounds.\r\n\t */\r\n\r\n\tconstructor(min = new Vector3(), max = new Vector3()) {\r\n\r\n\t\t/**\r\n\t\t * The lower bounds of this octant.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t */\r\n\r\n\t\tthis.min = min;\r\n\r\n\t\t/**\r\n\t\t * The upper bounds of the octant.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t */\r\n\r\n\t\tthis.max = max;\r\n\r\n\t\t/**\r\n\t\t * The children of this octant.\r\n\t\t *\r\n\t\t * @type {Octant[]}\r\n\t\t * @default null\r\n\t\t */\r\n\r\n\t\tthis.children = null;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Computes the center of this octant.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the center of this octant.\r\n\t */\r\n\r\n\tgetCenter(target = new Vector3()) {\r\n\r\n\t\treturn target.addVectors(this.min, this.max).multiplyScalar(0.5);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Computes the size of this octant.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the size of this octant.\r\n\t */\r\n\r\n\tgetDimensions(target = new Vector3()) {\r\n\r\n\t\treturn target.subVectors(this.max, this.min);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Splits this octant into eight smaller ones.\r\n\t */\r\n\r\n\tsplit() {\r\n\r\n\t\tconst min = this.min;\r\n\t\tconst max = this.max;\r\n\t\tconst mid = this.getCenter(c);\r\n\r\n\t\tconst children = this.children = [\r\n\r\n\t\t\tnull, null,\r\n\t\t\tnull, null,\r\n\t\t\tnull, null,\r\n\t\t\tnull, null\r\n\r\n\t\t];\r\n\r\n\t\tlet i, combination;\r\n\r\n\t\tfor(i = 0; i < 8; ++i) {\r\n\r\n\t\t\tcombination = pattern[i];\r\n\r\n\t\t\tchildren[i] = new this.constructor(\r\n\r\n\t\t\t\tnew Vector3(\r\n\t\t\t\t\t(combination[0] === 0) ? min.x : mid.x,\r\n\t\t\t\t\t(combination[1] === 0) ? min.y : mid.y,\r\n\t\t\t\t\t(combination[2] === 0) ? min.z : mid.z\r\n\t\t\t\t),\r\n\r\n\t\t\t\tnew Vector3(\r\n\t\t\t\t\t(combination[0] === 0) ? mid.x : max.x,\r\n\t\t\t\t\t(combination[1] === 0) ? mid.y : max.y,\r\n\t\t\t\t\t(combination[2] === 0) ? mid.z : max.z\r\n\t\t\t\t)\r\n\r\n\t\t\t);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * A binary pattern that describes the standard octant layout:\r\n *\r\n * ```text\r\n *    3____7\r\n *  2/___6/|\r\n *  | 1__|_5\r\n *  0/___4/\r\n * ```\r\n *\r\n * This common layout is crucial for positional assumptions.\r\n *\r\n * @type {Uint8Array[]}\r\n */\r\n\r\nexport const pattern = [\r\n\r\n\tnew Uint8Array([0, 0, 0]),\r\n\tnew Uint8Array([0, 0, 1]),\r\n\tnew Uint8Array([0, 1, 0]),\r\n\tnew Uint8Array([0, 1, 1]),\r\n\r\n\tnew Uint8Array([1, 0, 0]),\r\n\tnew Uint8Array([1, 0, 1]),\r\n\tnew Uint8Array([1, 1, 0]),\r\n\tnew Uint8Array([1, 1, 1])\r\n\r\n];\r\n\r\n/**\r\n * Describes all possible octant corner connections.\r\n *\r\n * @type {Uint8Array[]}\r\n */\r\n\r\nexport const edges = [\r\n\r\n\t// X-Axis.\r\n\tnew Uint8Array([0, 4]),\r\n\tnew Uint8Array([1, 5]),\r\n\tnew Uint8Array([2, 6]),\r\n\tnew Uint8Array([3, 7]),\r\n\r\n\t// Y-Axis.\r\n\tnew Uint8Array([0, 2]),\r\n\tnew Uint8Array([1, 3]),\r\n\tnew Uint8Array([4, 6]),\r\n\tnew Uint8Array([5, 7]),\r\n\r\n\t// Z-Axis.\r\n\tnew Uint8Array([0, 1]),\r\n\tnew Uint8Array([2, 3]),\r\n\tnew Uint8Array([4, 5]),\r\n\tnew Uint8Array([6, 7])\r\n\r\n];\r\n",
-    "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/Octant.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 61,
     "kind": "variable",
     "name": "c",
     "memberof": "src/core/Octant.js",
@@ -860,7 +849,7 @@
     "ignore": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 61,
     "kind": "class",
     "name": "Octant",
     "memberof": "src/core/Octant.js",
@@ -875,7 +864,7 @@
     "interface": false
   },
   {
-    "__docId__": 63,
+    "__docId__": 62,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/core/Octant.js~Octant",
@@ -910,7 +899,7 @@
     ]
   },
   {
-    "__docId__": 64,
+    "__docId__": 63,
     "kind": "member",
     "name": "min",
     "memberof": "src/core/Octant.js~Octant",
@@ -929,7 +918,7 @@
     }
   },
   {
-    "__docId__": 65,
+    "__docId__": 64,
     "kind": "member",
     "name": "max",
     "memberof": "src/core/Octant.js~Octant",
@@ -948,7 +937,7 @@
     }
   },
   {
-    "__docId__": 66,
+    "__docId__": 65,
     "kind": "member",
     "name": "children",
     "memberof": "src/core/Octant.js~Octant",
@@ -973,7 +962,7 @@
     }
   },
   {
-    "__docId__": 67,
+    "__docId__": 66,
     "kind": "method",
     "name": "getCenter",
     "memberof": "src/core/Octant.js~Octant",
@@ -1006,7 +995,7 @@
     }
   },
   {
-    "__docId__": 68,
+    "__docId__": 67,
     "kind": "method",
     "name": "getDimensions",
     "memberof": "src/core/Octant.js~Octant",
@@ -1039,7 +1028,7 @@
     }
   },
   {
-    "__docId__": 69,
+    "__docId__": 68,
     "kind": "method",
     "name": "split",
     "memberof": "src/core/Octant.js~Octant",
@@ -1054,7 +1043,7 @@
     "return": null
   },
   {
-    "__docId__": 70,
+    "__docId__": 69,
     "kind": "variable",
     "name": "pattern",
     "memberof": "src/core/Octant.js",
@@ -1076,7 +1065,7 @@
     }
   },
   {
-    "__docId__": 71,
+    "__docId__": 70,
     "kind": "variable",
     "name": "edges",
     "memberof": "src/core/Octant.js",
@@ -1098,18 +1087,18 @@
     }
   },
   {
-    "__docId__": 72,
+    "__docId__": 71,
     "kind": "file",
     "name": "src/core/OctantIterator.js",
-    "content": "import { Box3 } from \"math-ds\";\r\nimport IteratorResult from \"iterator-result\";\r\n\r\n/**\r\n * A 3D box.\r\n *\r\n * @type {Box3}\r\n * @private\r\n */\r\n\r\nconst b = new Box3();\r\n\r\n/**\r\n * An octant iterator.\r\n *\r\n * @implements {Iterator}\r\n * @implements {Iterable}\r\n */\r\n\r\nexport class OctantIterator {\r\n\r\n\t/**\r\n\t * Constructs a new octant iterator.\r\n\t *\r\n\t * @param {Octree} octree - An octree.\r\n\t * @param {Frustum|Box3} [region=null] - A cull region.\r\n\t */\r\n\r\n\tconstructor(octree, region = null) {\r\n\r\n\t\t/**\r\n\t\t * The octree.\r\n\t\t *\r\n\t\t * @type {Octree}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.octree = octree;\r\n\r\n\t\t/**\r\n\t\t * A region used for octree culling.\r\n\t\t *\r\n\t\t * @type {Frustum|Box3}\r\n\t\t */\r\n\r\n\t\tthis.region = region;\r\n\r\n\t\t/**\r\n\t\t * Whether this iterator should respect the cull region.\r\n\t\t *\r\n\t\t * @type {Boolean}\r\n\t\t */\r\n\r\n\t\tthis.cull = (region !== null);\r\n\r\n\t\t/**\r\n\t\t * An iterator result.\r\n\t\t *\r\n\t\t * @type {IteratorResult}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.result = new IteratorResult();\r\n\r\n\t\t/**\r\n\t\t * An octant trace.\r\n\t\t *\r\n\t\t * @type {Octant[]}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.trace = null;\r\n\r\n\t\t/**\r\n\t\t * Iteration indices.\r\n\t\t *\r\n\t\t * @type {Number[]}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.indices = null;\r\n\r\n\t\tthis.reset();\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Resets this iterator.\r\n\t *\r\n\t * @return {OctantIterator} This iterator.\r\n\t */\r\n\r\n\treset() {\r\n\r\n\t\tconst root = this.octree.root;\r\n\r\n\t\tthis.trace = [];\r\n\t\tthis.indices = [];\r\n\r\n\t\tif(root !== null) {\r\n\r\n\t\t\tb.min = root.min;\r\n\t\t\tb.max = root.max;\r\n\r\n\t\t\tif(!this.cull || this.region.intersectsBox(b)) {\r\n\r\n\t\t\t\tthis.trace.push(root);\r\n\t\t\t\tthis.indices.push(0);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\tthis.result.reset();\r\n\r\n\t\treturn this;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Iterates over the leaf octants.\r\n\t *\r\n\t * @return {IteratorResult} The next leaf octant.\r\n\t */\r\n\r\n\tnext() {\r\n\r\n\t\tconst cull = this.cull;\r\n\t\tconst region = this.region;\r\n\t\tconst indices = this.indices;\r\n\t\tconst trace = this.trace;\r\n\r\n\t\tlet octant = null;\r\n\t\tlet depth = trace.length - 1;\r\n\r\n\t\tlet index, children, child;\r\n\r\n\t\twhile(octant === null && depth >= 0) {\r\n\r\n\t\t\tindex = indices[depth]++;\r\n\t\t\tchildren = trace[depth].children;\r\n\r\n\t\t\tif(index < 8) {\r\n\r\n\t\t\t\tif(children !== null) {\r\n\r\n\t\t\t\t\tchild = children[index];\r\n\r\n\t\t\t\t\tif(cull) {\r\n\r\n\t\t\t\t\t\tb.min = child.min;\r\n\t\t\t\t\t\tb.max = child.max;\r\n\r\n\t\t\t\t\t\tif(!region.intersectsBox(b)) {\r\n\r\n\t\t\t\t\t\t\t// Cull this octant.\r\n\t\t\t\t\t\t\tcontinue;\r\n\r\n\t\t\t\t\t\t}\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t\ttrace.push(child);\r\n\t\t\t\t\tindices.push(0);\r\n\r\n\t\t\t\t\t++depth;\r\n\r\n\t\t\t\t} else {\r\n\r\n\t\t\t\t\toctant = trace.pop();\r\n\t\t\t\t\tindices.pop();\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t} else {\r\n\r\n\t\t\t\ttrace.pop();\r\n\t\t\t\tindices.pop();\r\n\r\n\t\t\t\t--depth;\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\tthis.result.value = octant;\r\n\t\tthis.result.done = (octant === null);\r\n\r\n\t\treturn this.result;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Called when this iterator will no longer be run to completion.\r\n\t *\r\n\t * @param {Object} value - An interator result value.\r\n\t * @return {IteratorResult} - A premature completion result.\r\n\t */\r\n\r\n\treturn(value) {\r\n\r\n\t\tthis.result.value = value;\r\n\t\tthis.result.done = true;\r\n\r\n\t\treturn this.result;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Returns this iterator.\r\n\t *\r\n\t * @return {OctantIterator} An iterator.\r\n\t */\r\n\r\n\t[Symbol.iterator]() {\r\n\r\n\t\treturn this;\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "import { Box3 } from \"three\";\nimport IteratorResult from \"iterator-result\";\n\n/**\n * A 3D box.\n *\n * @type {Box3}\n * @private\n */\n\nconst b = new Box3();\n\n/**\n * An octant iterator.\n *\n * @implements {Iterator}\n * @implements {Iterable}\n */\n\nexport class OctantIterator {\n\n\t/**\n\t * Constructs a new octant iterator.\n\t *\n\t * @param {Octree} octree - An octree.\n\t * @param {Frustum|Box3} [region=null] - A cull region.\n\t */\n\n\tconstructor(octree, region = null) {\n\n\t\t/**\n\t\t * The octree.\n\t\t *\n\t\t * @type {Octree}\n\t\t * @private\n\t\t */\n\n\t\tthis.octree = octree;\n\n\t\t/**\n\t\t * A region used for octree culling.\n\t\t *\n\t\t * @type {Frustum|Box3}\n\t\t */\n\n\t\tthis.region = region;\n\n\t\t/**\n\t\t * Whether this iterator should respect the cull region.\n\t\t *\n\t\t * @type {Boolean}\n\t\t */\n\n\t\tthis.cull = (region !== null);\n\n\t\t/**\n\t\t * An iterator result.\n\t\t *\n\t\t * @type {IteratorResult}\n\t\t * @private\n\t\t */\n\n\t\tthis.result = new IteratorResult();\n\n\t\t/**\n\t\t * An octant trace.\n\t\t *\n\t\t * @type {Octant[]}\n\t\t * @private\n\t\t */\n\n\t\tthis.trace = null;\n\n\t\t/**\n\t\t * Iteration indices.\n\t\t *\n\t\t * @type {Number[]}\n\t\t * @private\n\t\t */\n\n\t\tthis.indices = null;\n\n\t\tthis.reset();\n\n\t}\n\n\t/**\n\t * Resets this iterator.\n\t *\n\t * @return {OctantIterator} This iterator.\n\t */\n\n\treset() {\n\n\t\tconst root = this.octree.root;\n\n\t\tthis.trace = [];\n\t\tthis.indices = [];\n\n\t\tif(root !== null) {\n\n\t\t\tb.min = root.min;\n\t\t\tb.max = root.max;\n\n\t\t\tif(!this.cull || this.region.intersectsBox(b)) {\n\n\t\t\t\tthis.trace.push(root);\n\t\t\t\tthis.indices.push(0);\n\n\t\t\t}\n\n\t\t}\n\n\t\tthis.result.reset();\n\n\t\treturn this;\n\n\t}\n\n\t/**\n\t * Iterates over the leaf octants.\n\t *\n\t * @return {IteratorResult} The next leaf octant.\n\t */\n\n\tnext() {\n\n\t\tconst cull = this.cull;\n\t\tconst region = this.region;\n\t\tconst indices = this.indices;\n\t\tconst trace = this.trace;\n\n\t\tlet octant = null;\n\t\tlet depth = trace.length - 1;\n\n\t\tlet index, children, child;\n\n\t\twhile(octant === null && depth >= 0) {\n\n\t\t\tindex = indices[depth]++;\n\t\t\tchildren = trace[depth].children;\n\n\t\t\tif(index < 8) {\n\n\t\t\t\tif(children !== null) {\n\n\t\t\t\t\tchild = children[index];\n\n\t\t\t\t\tif(cull) {\n\n\t\t\t\t\t\tb.min = child.min;\n\t\t\t\t\t\tb.max = child.max;\n\n\t\t\t\t\t\tif(!region.intersectsBox(b)) {\n\n\t\t\t\t\t\t\t// Cull this octant.\n\t\t\t\t\t\t\tcontinue;\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t}\n\n\t\t\t\t\ttrace.push(child);\n\t\t\t\t\tindices.push(0);\n\n\t\t\t\t\t++depth;\n\n\t\t\t\t} else {\n\n\t\t\t\t\toctant = trace.pop();\n\t\t\t\t\tindices.pop();\n\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\ttrace.pop();\n\t\t\t\tindices.pop();\n\n\t\t\t\t--depth;\n\n\t\t\t}\n\n\t\t}\n\n\t\tthis.result.value = octant;\n\t\tthis.result.done = (octant === null);\n\n\t\treturn this.result;\n\n\t}\n\n\t/**\n\t * Called when this iterator will no longer be run to completion.\n\t *\n\t * @param {Object} value - An interator result value.\n\t * @return {IteratorResult} - A premature completion result.\n\t */\n\n\treturn(value) {\n\n\t\tthis.result.value = value;\n\t\tthis.result.done = true;\n\n\t\treturn this.result;\n\n\t}\n\n\t/**\n\t * Returns this iterator.\n\t *\n\t * @return {OctantIterator} An iterator.\n\t */\n\n\t[Symbol.iterator]() {\n\n\t\treturn this;\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/OctantIterator.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/OctantIterator.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 73,
+    "__docId__": 72,
     "kind": "variable",
     "name": "b",
     "memberof": "src/core/OctantIterator.js",
@@ -1132,7 +1121,7 @@
     "ignore": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 73,
     "kind": "class",
     "name": "OctantIterator",
     "memberof": "src/core/OctantIterator.js",
@@ -1151,7 +1140,7 @@
     ]
   },
   {
-    "__docId__": 75,
+    "__docId__": 74,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1189,7 +1178,7 @@
     ]
   },
   {
-    "__docId__": 76,
+    "__docId__": 75,
     "kind": "member",
     "name": "octree",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1208,7 +1197,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 76,
     "kind": "member",
     "name": "region",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1228,7 +1217,7 @@
     }
   },
   {
-    "__docId__": 78,
+    "__docId__": 77,
     "kind": "member",
     "name": "cull",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1247,7 +1236,7 @@
     }
   },
   {
-    "__docId__": 79,
+    "__docId__": 78,
     "kind": "member",
     "name": "result",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1266,7 +1255,7 @@
     }
   },
   {
-    "__docId__": 80,
+    "__docId__": 79,
     "kind": "member",
     "name": "trace",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1285,7 +1274,7 @@
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 80,
     "kind": "member",
     "name": "indices",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1304,7 +1293,7 @@
     }
   },
   {
-    "__docId__": 82,
+    "__docId__": 81,
     "kind": "method",
     "name": "reset",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1326,7 +1315,7 @@
     "params": []
   },
   {
-    "__docId__": 85,
+    "__docId__": 84,
     "kind": "method",
     "name": "next",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1348,7 +1337,7 @@
     "params": []
   },
   {
-    "__docId__": 86,
+    "__docId__": 85,
     "kind": "method",
     "name": "return",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1381,7 +1370,7 @@
     }
   },
   {
-    "__docId__": 87,
+    "__docId__": 86,
     "kind": "method",
     "name": "[Symbol.iterator]",
     "memberof": "src/core/OctantIterator.js~OctantIterator",
@@ -1403,18 +1392,18 @@
     "params": []
   },
   {
-    "__docId__": 88,
+    "__docId__": 87,
     "kind": "file",
     "name": "src/core/Octree.js",
-    "content": "import { Box3 } from \"math-ds\";\r\nimport { Octant } from \"./Octant.js\";\r\nimport { OctantIterator } from \"./OctantIterator.js\";\r\nimport { OctreeRaycaster } from \"./OctreeRaycaster.js\";\r\n\r\n/**\r\n * A 3D box.\r\n *\r\n * @type {Box3}\r\n * @private\r\n */\r\n\r\nconst b = new Box3();\r\n\r\n/**\r\n * Recursively calculates the depth of the given octree.\r\n *\r\n * @private\r\n * @param {Octant} octant - An octant.\r\n * @return {Number} The depth.\r\n */\r\n\r\nfunction getDepth(octant) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet result = 0;\r\n\tlet i, l, d;\r\n\r\n\tif(children !== null) {\r\n\r\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\td = 1 + getDepth(children[i]);\r\n\r\n\t\t\tif(d > result) {\r\n\r\n\t\t\t\tresult = d;\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively collects octants that lie inside the specified region.\r\n *\r\n * @private\r\n * @param {Octant} octant - An octant.\r\n * @param {Frustum|Box3} region - A region.\r\n * @param {Octant[]} result - A list to be filled with octants that intersect with the region.\r\n */\r\n\r\nfunction cull(octant, region, result) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet i, l;\r\n\r\n\tb.min = octant.min;\r\n\tb.max = octant.max;\r\n\r\n\tif(region.intersectsBox(b)) {\r\n\r\n\t\tif(children !== null) {\r\n\r\n\t\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\t\tcull(children[i], region, result);\r\n\r\n\t\t\t}\r\n\r\n\t\t} else {\r\n\r\n\t\t\tresult.push(octant);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * Recursively fetches all octants with the specified depth level.\r\n *\r\n * @private\r\n * @param {Octant} octant - An octant.\r\n * @param {Number} level - The target depth level.\r\n * @param {Number} depth - The current depth level.\r\n * @param {Octant[]} result - A list to be filled with the identified octants.\r\n */\r\n\r\nfunction findOctantsByLevel(octant, level, depth, result) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet i, l;\r\n\r\n\tif(depth === level) {\r\n\r\n\t\tresult.push(octant);\r\n\r\n\t} else if(children !== null) {\r\n\r\n\t\t++depth;\r\n\r\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\tfindOctantsByLevel(children[i], level, depth, result);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * An octree that subdivides space for fast spatial searches.\r\n *\r\n * @implements {Iterable}\r\n */\r\n\r\nexport class Octree {\r\n\r\n\t/**\r\n\t * Constructs a new octree.\r\n\t *\r\n\t * @param {Vector3} [min] - The lower bounds of the tree. If not provided, the octree will not create a root node.\r\n\t * @param {Vector3} [max] - The upper bounds of the tree. If not provided, the octree will not create a root node.\r\n\t */\r\n\r\n\tconstructor(min, max) {\r\n\r\n\t\t/**\r\n\t\t * The root octant.\r\n\t\t *\r\n\t\t * @type {Octant}\r\n\t\t * @default null\r\n\t\t */\r\n\r\n\t\tthis.root = (min !== undefined && max !== undefined) ? new Octant(min, max) : null;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * The lower bounds of the root octant.\r\n\t *\r\n\t * @type {Vector3}\r\n\t */\r\n\r\n\tget min() {\r\n\r\n\t\treturn this.root.min;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * The upper bounds of the root octant.\r\n\t *\r\n\t * @type {Vector3}\r\n\t */\r\n\r\n\tget max() {\r\n\r\n\t\treturn this.root.max;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * The children of the root octant.\r\n\t *\r\n\t * @type {Octant[]}\r\n\t */\r\n\r\n\tget children() {\r\n\r\n\t\treturn this.root.children;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Calculates the center of this octree.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the center of this octree.\r\n\t */\r\n\r\n\tgetCenter(target) {\r\n\r\n\t\treturn this.root.getCenter(target);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Calculates the size of this octree.\r\n\t *\r\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\r\n\t * @return {Vector3} A vector that describes the size of this octree.\r\n\t */\r\n\r\n\tgetDimensions(target) {\r\n\r\n\t\treturn this.root.getDimensions(target);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Calculates the current depth of this octree.\r\n\t *\r\n\t * @return {Number} The depth.\r\n\t */\r\n\r\n\tgetDepth() {\r\n\r\n\t\treturn getDepth(this.root);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Recursively collects octants that intersect with the specified region.\r\n\t *\r\n\t * @param {Frustum|Box3} region - A region.\r\n\t * @return {Octant[]} The octants.\r\n\t */\r\n\r\n\tcull(region) {\r\n\r\n\t\tconst result = [];\r\n\r\n\t\tcull(this.root, region, result);\r\n\r\n\t\treturn result;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Fetches all octants with the specified depth level.\r\n\t *\r\n\t * @param {Number} level - The depth level.\r\n\t * @return {Octant[]} The octants.\r\n\t */\r\n\r\n\tfindOctantsByLevel(level) {\r\n\r\n\t\tconst result = [];\r\n\r\n\t\tfindOctantsByLevel(this.root, level, 0, result);\r\n\r\n\t\treturn result;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Finds the octants that intersect with the given ray. The intersecting\r\n\t * octants are sorted by distance, closest first.\r\n\t *\r\n\t * @param {Raycaster} raycaster - A raycaster.\r\n\t * @param {Octant[]} [intersects] - An optional target list to be filled with the intersecting octants.\r\n\t * @return {Octant[]} The intersecting octants.\r\n\t */\r\n\r\n\traycast(raycaster, intersects = []) {\r\n\r\n\t\tOctreeRaycaster.intersectOctree(this, raycaster, intersects);\r\n\r\n\t\treturn intersects;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Returns an iterator that traverses the octree and returns leaf nodes.\r\n\t *\r\n\t * When a cull region is provided, the iterator will only return leaves that\r\n\t * intersect with that region.\r\n\t *\r\n\t * @param {Frustum|Box3} [region] - A cull region.\r\n\t * @return {OctantIterator} An iterator.\r\n\t */\r\n\r\n\tleaves(region) {\r\n\r\n\t\treturn new OctantIterator(this, region);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Returns an iterator that traverses the octree and returns all leaf nodes.\r\n\t *\r\n\t * @return {OctantIterator} An iterator.\r\n\t */\r\n\r\n\t[Symbol.iterator]() {\r\n\r\n\t\treturn new OctantIterator(this);\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "import { Box3 } from \"three\";\nimport { Octant } from \"./Octant.js\";\nimport { OctantIterator } from \"./OctantIterator.js\";\nimport { OctreeRaycaster } from \"./OctreeRaycaster.js\";\n\n/**\n * A 3D box.\n *\n * @type {Box3}\n * @private\n */\n\nconst b = new Box3();\n\n/**\n * Recursively calculates the depth of the given octree.\n *\n * @private\n * @param {Octant} octant - An octant.\n * @return {Number} The depth.\n */\n\nfunction getDepth(octant) {\n\n\tconst children = octant.children;\n\n\tlet result = 0;\n\tlet i, l, d;\n\n\tif(children !== null) {\n\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\td = 1 + getDepth(children[i]);\n\n\t\t\tif(d > result) {\n\n\t\t\t\tresult = d;\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively collects octants that lie inside the specified region.\n *\n * @private\n * @param {Octant} octant - An octant.\n * @param {Frustum|Box3} region - A region.\n * @param {Octant[]} result - A list to be filled with octants that intersect with the region.\n */\n\nfunction cull(octant, region, result) {\n\n\tconst children = octant.children;\n\n\tlet i, l;\n\n\tb.min = octant.min;\n\tb.max = octant.max;\n\n\tif(region.intersectsBox(b)) {\n\n\t\tif(children !== null) {\n\n\t\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\t\tcull(children[i], region, result);\n\n\t\t\t}\n\n\t\t} else {\n\n\t\t\tresult.push(octant);\n\n\t\t}\n\n\t}\n\n}\n\n/**\n * Recursively fetches all octants with the specified depth level.\n *\n * @private\n * @param {Octant} octant - An octant.\n * @param {Number} level - The target depth level.\n * @param {Number} depth - The current depth level.\n * @param {Octant[]} result - A list to be filled with the identified octants.\n */\n\nfunction findOctantsByLevel(octant, level, depth, result) {\n\n\tconst children = octant.children;\n\n\tlet i, l;\n\n\tif(depth === level) {\n\n\t\tresult.push(octant);\n\n\t} else if(children !== null) {\n\n\t\t++depth;\n\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\tfindOctantsByLevel(children[i], level, depth, result);\n\n\t\t}\n\n\t}\n\n}\n\n/**\n * An octree that subdivides space for fast spatial searches.\n *\n * @implements {Iterable}\n */\n\nexport class Octree {\n\n\t/**\n\t * Constructs a new octree.\n\t *\n\t * @param {Vector3} [min] - The lower bounds of the tree. If not provided, the octree will not create a root node.\n\t * @param {Vector3} [max] - The upper bounds of the tree. If not provided, the octree will not create a root node.\n\t */\n\n\tconstructor(min, max) {\n\n\t\t/**\n\t\t * The root octant.\n\t\t *\n\t\t * @type {Octant}\n\t\t * @default null\n\t\t */\n\n\t\tthis.root = (min !== undefined && max !== undefined) ? new Octant(min, max) : null;\n\n\t}\n\n\t/**\n\t * The lower bounds of the root octant.\n\t *\n\t * @type {Vector3}\n\t */\n\n\tget min() {\n\n\t\treturn this.root.min;\n\n\t}\n\n\t/**\n\t * The upper bounds of the root octant.\n\t *\n\t * @type {Vector3}\n\t */\n\n\tget max() {\n\n\t\treturn this.root.max;\n\n\t}\n\n\t/**\n\t * The children of the root octant.\n\t *\n\t * @type {Octant[]}\n\t */\n\n\tget children() {\n\n\t\treturn this.root.children;\n\n\t}\n\n\t/**\n\t * Calculates the center of this octree.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the center of this octree.\n\t */\n\n\tgetCenter(target) {\n\n\t\treturn this.root.getCenter(target);\n\n\t}\n\n\t/**\n\t * Calculates the size of this octree.\n\t *\n\t * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.\n\t * @return {Vector3} A vector that describes the size of this octree.\n\t */\n\n\tgetDimensions(target) {\n\n\t\treturn this.root.getDimensions(target);\n\n\t}\n\n\t/**\n\t * Calculates the current depth of this octree.\n\t *\n\t * @return {Number} The depth.\n\t */\n\n\tgetDepth() {\n\n\t\treturn getDepth(this.root);\n\n\t}\n\n\t/**\n\t * Recursively collects octants that intersect with the specified region.\n\t *\n\t * @param {Frustum|Box3} region - A region.\n\t * @return {Octant[]} The octants.\n\t */\n\n\tcull(region) {\n\n\t\tconst result = [];\n\n\t\tcull(this.root, region, result);\n\n\t\treturn result;\n\n\t}\n\n\t/**\n\t * Fetches all octants with the specified depth level.\n\t *\n\t * @param {Number} level - The depth level.\n\t * @return {Octant[]} The octants.\n\t */\n\n\tfindOctantsByLevel(level) {\n\n\t\tconst result = [];\n\n\t\tfindOctantsByLevel(this.root, level, 0, result);\n\n\t\treturn result;\n\n\t}\n\n\t/**\n\t * Finds the octants that intersect with the given ray. The intersecting\n\t * octants are sorted by distance, closest first.\n\t *\n\t * @param {Raycaster} raycaster - A raycaster.\n\t * @param {Octant[]} [intersects] - An optional target list to be filled with the intersecting octants.\n\t * @return {Octant[]} The intersecting octants.\n\t */\n\n\traycast(raycaster, intersects = []) {\n\n\t\tOctreeRaycaster.intersectOctree(this, raycaster, intersects);\n\n\t\treturn intersects;\n\n\t}\n\n\t/**\n\t * Returns an iterator that traverses the octree and returns leaf nodes.\n\t *\n\t * When a cull region is provided, the iterator will only return leaves that\n\t * intersect with that region.\n\t *\n\t * @param {Frustum|Box3} [region] - A cull region.\n\t * @return {OctantIterator} An iterator.\n\t */\n\n\tleaves(region) {\n\n\t\treturn new OctantIterator(this, region);\n\n\t}\n\n\t/**\n\t * Returns an iterator that traverses the octree and returns all leaf nodes.\n\t *\n\t * @return {OctantIterator} An iterator.\n\t */\n\n\t[Symbol.iterator]() {\n\n\t\treturn new OctantIterator(this);\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/Octree.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/Octree.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 89,
+    "__docId__": 88,
     "kind": "variable",
     "name": "b",
     "memberof": "src/core/Octree.js",
@@ -1437,7 +1426,7 @@
     "ignore": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 89,
     "kind": "function",
     "name": "getDepth",
     "memberof": "src/core/Octree.js",
@@ -1474,7 +1463,7 @@
     "ignore": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 90,
     "kind": "function",
     "name": "cull",
     "memberof": "src/core/Octree.js",
@@ -1525,7 +1514,7 @@
     "ignore": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 91,
     "kind": "function",
     "name": "findOctantsByLevel",
     "memberof": "src/core/Octree.js",
@@ -1585,7 +1574,7 @@
     "ignore": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 92,
     "kind": "class",
     "name": "Octree",
     "memberof": "src/core/Octree.js",
@@ -1603,7 +1592,7 @@
     ]
   },
   {
-    "__docId__": 94,
+    "__docId__": 93,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/core/Octree.js~Octree",
@@ -1638,7 +1627,7 @@
     ]
   },
   {
-    "__docId__": 95,
+    "__docId__": 94,
     "kind": "member",
     "name": "root",
     "memberof": "src/core/Octree.js~Octree",
@@ -1663,7 +1652,7 @@
     }
   },
   {
-    "__docId__": 96,
+    "__docId__": 95,
     "kind": "get",
     "name": "min",
     "memberof": "src/core/Octree.js~Octree",
@@ -1684,7 +1673,7 @@
     }
   },
   {
-    "__docId__": 97,
+    "__docId__": 96,
     "kind": "get",
     "name": "max",
     "memberof": "src/core/Octree.js~Octree",
@@ -1705,7 +1694,7 @@
     }
   },
   {
-    "__docId__": 98,
+    "__docId__": 97,
     "kind": "get",
     "name": "children",
     "memberof": "src/core/Octree.js~Octree",
@@ -1726,7 +1715,7 @@
     }
   },
   {
-    "__docId__": 99,
+    "__docId__": 98,
     "kind": "method",
     "name": "getCenter",
     "memberof": "src/core/Octree.js~Octree",
@@ -1759,7 +1748,7 @@
     }
   },
   {
-    "__docId__": 100,
+    "__docId__": 99,
     "kind": "method",
     "name": "getDimensions",
     "memberof": "src/core/Octree.js~Octree",
@@ -1792,7 +1781,7 @@
     }
   },
   {
-    "__docId__": 101,
+    "__docId__": 100,
     "kind": "method",
     "name": "getDepth",
     "memberof": "src/core/Octree.js~Octree",
@@ -1814,7 +1803,7 @@
     "params": []
   },
   {
-    "__docId__": 102,
+    "__docId__": 101,
     "kind": "method",
     "name": "cull",
     "memberof": "src/core/Octree.js~Octree",
@@ -1848,7 +1837,7 @@
     }
   },
   {
-    "__docId__": 103,
+    "__docId__": 102,
     "kind": "method",
     "name": "findOctantsByLevel",
     "memberof": "src/core/Octree.js~Octree",
@@ -1881,7 +1870,7 @@
     }
   },
   {
-    "__docId__": 104,
+    "__docId__": 103,
     "kind": "method",
     "name": "raycast",
     "memberof": "src/core/Octree.js~Octree",
@@ -1924,7 +1913,7 @@
     }
   },
   {
-    "__docId__": 105,
+    "__docId__": 104,
     "kind": "method",
     "name": "leaves",
     "memberof": "src/core/Octree.js~Octree",
@@ -1958,7 +1947,7 @@
     }
   },
   {
-    "__docId__": 106,
+    "__docId__": 105,
     "kind": "method",
     "name": "[Symbol.iterator]",
     "memberof": "src/core/Octree.js~Octree",
@@ -1980,18 +1969,18 @@
     "params": []
   },
   {
-    "__docId__": 107,
+    "__docId__": 106,
     "kind": "file",
     "name": "src/core/OctreeRaycaster.js",
-    "content": "import { Box3, Ray, Vector3 } from \"math-ds\";\r\n\r\n/**\r\n * A list of vectors.\r\n *\r\n * @type {Vector3[]}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst v = [\r\n\tnew Vector3(),\r\n\tnew Vector3(),\r\n\tnew Vector3()\r\n];\r\n\r\n/**\r\n * A box.\r\n *\r\n * @type {Box3}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst b = new Box3();\r\n\r\n/**\r\n * A ray.\r\n *\r\n * @type {Ray}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst r = new Ray();\r\n\r\n/**\r\n * A lookup-table containing octant ids. Used to determine the exit plane from\r\n * an octant.\r\n *\r\n * @type {Uint8Array[]}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst octantTable = [\r\n\r\n\tnew Uint8Array([4, 2, 1]),\r\n\tnew Uint8Array([5, 3, 8]),\r\n\tnew Uint8Array([6, 8, 3]),\r\n\tnew Uint8Array([7, 8, 8]),\r\n\tnew Uint8Array([8, 6, 5]),\r\n\tnew Uint8Array([8, 7, 8]),\r\n\tnew Uint8Array([8, 8, 7]),\r\n\tnew Uint8Array([8, 8, 8])\r\n\r\n];\r\n\r\n/**\r\n * A byte that stores raycasting flags.\r\n *\r\n * @type {Number}\r\n * @private\r\n */\r\n\r\nlet flags = 0;\r\n\r\n/**\r\n * Finds the entry plane of the first octant that a ray travels through.\r\n *\r\n * Determining the first octant requires knowing which of the t0s is the\r\n * largest. The tms of the other axes must also be compared against that\r\n * largest t0.\r\n *\r\n * @private\r\n * @param {Number} tx0 - Ray projection parameter.\r\n * @param {Number} ty0 - Ray projection parameter.\r\n * @param {Number} tz0 - Ray projection parameter.\r\n * @param {Number} txm - Ray projection parameter mean.\r\n * @param {Number} tym - Ray projection parameter mean.\r\n * @param {Number} tzm - Ray projection parameter mean.\r\n * @return {Number} The index of the first octant that the ray travels through.\r\n */\r\n\r\nfunction findEntryOctant(tx0, ty0, tz0, txm, tym, tzm) {\r\n\r\n\tlet entry = 0;\r\n\r\n\t// Find the entry plane.\r\n\tif(tx0 > ty0 && tx0 > tz0) {\r\n\r\n\t\t// YZ-plane.\r\n\t\tif(tym < tx0) {\r\n\r\n\t\t\tentry |= 2;\r\n\r\n\t\t}\r\n\r\n\t\tif(tzm < tx0) {\r\n\r\n\t\t\tentry |= 1;\r\n\r\n\t\t}\r\n\r\n\t} else if(ty0 > tz0) {\r\n\r\n\t\t// XZ-plane.\r\n\t\tif(txm < ty0) {\r\n\r\n\t\t\tentry |= 4;\r\n\r\n\t\t}\r\n\r\n\t\tif(tzm < ty0) {\r\n\r\n\t\t\tentry |= 1;\r\n\r\n\t\t}\r\n\r\n\t} else {\r\n\r\n\t\t// XY-plane.\r\n\t\tif(txm < tz0) {\r\n\r\n\t\t\tentry |= 4;\r\n\r\n\t\t}\r\n\r\n\t\tif(tym < tz0) {\r\n\r\n\t\t\tentry |= 2;\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn entry;\r\n\r\n}\r\n\r\n/**\r\n * Finds the next octant that intersects with the ray based on the exit plane of\r\n * the current one.\r\n *\r\n * @private\r\n * @param {Number} currentOctant - The index of the current octant.\r\n * @param {Number} tx1 - Ray projection parameter.\r\n * @param {Number} ty1 - Ray projection parameter.\r\n * @param {Number} tz1 - Ray projection parameter.\r\n * @return {Number} The index of the next octant that the ray travels through.\r\n */\r\n\r\nfunction findNextOctant(currentOctant, tx1, ty1, tz1) {\r\n\r\n\tlet min;\r\n\tlet exit = 0;\r\n\r\n\t// Find the exit plane.\r\n\tif(tx1 < ty1) {\r\n\r\n\t\tmin = tx1;\r\n\t\texit = 0; // YZ-plane.\r\n\r\n\t} else {\r\n\r\n\t\tmin = ty1;\r\n\t\texit = 1; // XZ-plane.\r\n\r\n\t}\r\n\r\n\tif(tz1 < min) {\r\n\r\n\t\texit = 2; // XY-plane.\r\n\r\n\t}\r\n\r\n\treturn octantTable[currentOctant][exit];\r\n\r\n}\r\n\r\n/**\r\n * Finds all octants that intersect with the given ray.\r\n *\r\n * @private\r\n * @param {Octant} octant - The current octant.\r\n * @param {Number} tx0 - Ray projection parameter. Initial tx0 = (minX - rayOriginX) / rayDirectionX.\r\n * @param {Number} ty0 - Ray projection parameter. Initial ty0 = (minY - rayOriginY) / rayDirectionY.\r\n * @param {Number} tz0 - Ray projection parameter. Initial tz0 = (minZ - rayOriginZ) / rayDirectionZ.\r\n * @param {Number} tx1 - Ray projection parameter. Initial tx1 = (maxX - rayOriginX) / rayDirectionX.\r\n * @param {Number} ty1 - Ray projection parameter. Initial ty1 = (maxY - rayOriginY) / rayDirectionY.\r\n * @param {Number} tz1 - Ray projection parameter. Initial tz1 = (maxZ - rayOriginZ) / rayDirectionZ.\r\n * @param {Raycaster} raycaster - The raycaster.\r\n * @param {Array} intersects - An array to be filled with the intersecting octants.\r\n */\r\n\r\nfunction raycastOctant(octant, tx0, ty0, tz0, tx1, ty1, tz1, raycaster, intersects) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet currentOctant;\r\n\tlet txm, tym, tzm;\r\n\r\n\tif(tx1 >= 0.0 && ty1 >= 0.0 && tz1 >= 0.0) {\r\n\r\n\t\tif(children === null) {\r\n\r\n\t\t\t// Leaf.\r\n\t\t\tintersects.push(octant);\r\n\r\n\t\t} else {\r\n\r\n\t\t\t// Compute means.\r\n\t\t\ttxm = 0.5 * (tx0 + tx1);\r\n\t\t\ttym = 0.5 * (ty0 + ty1);\r\n\t\t\ttzm = 0.5 * (tz0 + tz1);\r\n\r\n\t\t\tcurrentOctant = findEntryOctant(tx0, ty0, tz0, txm, tym, tzm);\r\n\r\n\t\t\tdo {\r\n\r\n\t\t\t\t/* The possibilities for the next node are passed in the same respective\r\n\t\t\t\t * order as the t-values. Hence, if the first value is found to be the\r\n\t\t\t\t * greatest, the fourth one will be returned. If the second value is the\r\n\t\t\t\t * greatest, the fifth one will be returned, etc.\r\n\t\t\t\t */\r\n\r\n\t\t\t\tswitch(currentOctant) {\r\n\r\n\t\t\t\t\tcase 0:\r\n\t\t\t\t\t\traycastOctant(children[flags], tx0, ty0, tz0, txm, tym, tzm, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, tym, tzm);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 1:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 1], tx0, ty0, tzm, txm, tym, tz1, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, tym, tz1);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 2:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 2], tx0, tym, tz0, txm, ty1, tzm, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, ty1, tzm);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 3:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 3], tx0, tym, tzm, txm, ty1, tz1, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, ty1, tz1);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 4:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 4], txm, ty0, tz0, tx1, tym, tzm, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, tym, tzm);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 5:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 5], txm, ty0, tzm, tx1, tym, tz1, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, tym, tz1);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 6:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 6], txm, tym, tz0, tx1, ty1, tzm, raycaster, intersects);\r\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, ty1, tzm);\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\tcase 7:\r\n\t\t\t\t\t\traycastOctant(children[flags ^ 7], txm, tym, tzm, tx1, ty1, tz1, raycaster, intersects);\r\n\t\t\t\t\t\t// Far top right octant. No other octants can be reached from here.\r\n\t\t\t\t\t\tcurrentOctant = 8;\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t} while(currentOctant < 8);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * An octree raycaster.\r\n *\r\n * Based on:\r\n *  \"An Efficient Parametric Algorithm for Octree Traversal\"\r\n *  by J. Revelles et al. (2000).\r\n */\r\n\r\nexport class OctreeRaycaster {\r\n\r\n\t/**\r\n\t * Finds the octants that intersect with the given ray. The intersecting\r\n\t * octants are sorted by distance, closest first.\r\n\t *\r\n\t * @param {Octree} octree - An octree.\r\n\t * @param {Raycaster} raycaster - A raycaster.\r\n\t * @param {Array} intersects - A list to be filled with intersecting octants.\r\n\t */\r\n\r\n\tstatic intersectOctree(octree, raycaster, intersects) {\r\n\r\n\t\t// Translate the octree extents to the scene origin.\r\n\t\tconst min = b.min.set(0, 0, 0);\r\n\t\tconst max = b.max.subVectors(octree.max, octree.min);\r\n\r\n\t\tconst dimensions = octree.getDimensions(v[0]);\r\n\t\tconst halfDimensions = v[1].copy(dimensions).multiplyScalar(0.5);\r\n\r\n\t\tconst origin = r.origin.copy(raycaster.ray.origin);\r\n\t\tconst direction = r.direction.copy(raycaster.ray.direction);\r\n\r\n\t\tlet invDirX, invDirY, invDirZ;\r\n\t\tlet tx0, tx1, ty0, ty1, tz0, tz1;\r\n\r\n\t\t// Translate the ray to the center of the octree.\r\n\t\torigin.sub(octree.getCenter(v[2])).add(halfDimensions);\r\n\r\n\t\t// Reset all flags.\r\n\t\tflags = 0;\r\n\r\n\t\t// Handle rays with negative directions.\r\n\t\tif(direction.x < 0.0) {\r\n\r\n\t\t\torigin.x = dimensions.x - origin.x;\r\n\t\t\tdirection.x = -direction.x;\r\n\t\t\tflags |= 4;\r\n\r\n\t\t}\r\n\r\n\t\tif(direction.y < 0.0) {\r\n\r\n\t\t\torigin.y = dimensions.y - origin.y;\r\n\t\t\tdirection.y = -direction.y;\r\n\t\t\tflags |= 2;\r\n\r\n\t\t}\r\n\r\n\t\tif(direction.z < 0.0) {\r\n\r\n\t\t\torigin.z = dimensions.z - origin.z;\r\n\t\t\tdirection.z = -direction.z;\r\n\t\t\tflags |= 1;\r\n\r\n\t\t}\r\n\r\n\t\t// Improve IEEE double stability.\r\n\t\tinvDirX = 1.0 / direction.x;\r\n\t\tinvDirY = 1.0 / direction.y;\r\n\t\tinvDirZ = 1.0 / direction.z;\r\n\r\n\t\t// Project the ray to the root's boundaries.\r\n\t\ttx0 = (min.x - origin.x) * invDirX;\r\n\t\ttx1 = (max.x - origin.x) * invDirX;\r\n\t\tty0 = (min.y - origin.y) * invDirY;\r\n\t\tty1 = (max.y - origin.y) * invDirY;\r\n\t\ttz0 = (min.z - origin.z) * invDirZ;\r\n\t\ttz1 = (max.z - origin.z) * invDirZ;\r\n\r\n\t\t// Check if the ray hits the octree.\r\n\t\tif(Math.max(Math.max(tx0, ty0), tz0) < Math.min(Math.min(tx1, ty1), tz1)) {\r\n\r\n\t\t\t// Find the intersecting octants.\r\n\t\t\traycastOctant(octree.root, tx0, ty0, tz0, tx1, ty1, tz1, raycaster, intersects);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "import { Box3, Ray, Vector3 } from \"three\";\n\n/**\n * A list of vectors.\n *\n * @type {Vector3[]}\n * @private\n * @final\n */\n\nconst v = [\n\tnew Vector3(),\n\tnew Vector3(),\n\tnew Vector3()\n];\n\n/**\n * A box.\n *\n * @type {Box3}\n * @private\n * @final\n */\n\nconst b = new Box3();\n\n/**\n * A ray.\n *\n * @type {Ray}\n * @private\n * @final\n */\n\nconst r = new Ray();\n\n/**\n * A lookup-table containing octant ids. Used to determine the exit plane from\n * an octant.\n *\n * @type {Uint8Array[]}\n * @private\n * @final\n */\n\nconst octantTable = [\n\n\tnew Uint8Array([4, 2, 1]),\n\tnew Uint8Array([5, 3, 8]),\n\tnew Uint8Array([6, 8, 3]),\n\tnew Uint8Array([7, 8, 8]),\n\tnew Uint8Array([8, 6, 5]),\n\tnew Uint8Array([8, 7, 8]),\n\tnew Uint8Array([8, 8, 7]),\n\tnew Uint8Array([8, 8, 8])\n\n];\n\n/**\n * A byte that stores raycasting flags.\n *\n * @type {Number}\n * @private\n */\n\nlet flags = 0;\n\n/**\n * Finds the entry plane of the first octant that a ray travels through.\n *\n * Determining the first octant requires knowing which of the t0s is the\n * largest. The tms of the other axes must also be compared against that\n * largest t0.\n *\n * @private\n * @param {Number} tx0 - Ray projection parameter.\n * @param {Number} ty0 - Ray projection parameter.\n * @param {Number} tz0 - Ray projection parameter.\n * @param {Number} txm - Ray projection parameter mean.\n * @param {Number} tym - Ray projection parameter mean.\n * @param {Number} tzm - Ray projection parameter mean.\n * @return {Number} The index of the first octant that the ray travels through.\n */\n\nfunction findEntryOctant(tx0, ty0, tz0, txm, tym, tzm) {\n\n\tlet entry = 0;\n\n\t// Find the entry plane.\n\tif(tx0 > ty0 && tx0 > tz0) {\n\n\t\t// YZ-plane.\n\t\tif(tym < tx0) {\n\n\t\t\tentry |= 2;\n\n\t\t}\n\n\t\tif(tzm < tx0) {\n\n\t\t\tentry |= 1;\n\n\t\t}\n\n\t} else if(ty0 > tz0) {\n\n\t\t// XZ-plane.\n\t\tif(txm < ty0) {\n\n\t\t\tentry |= 4;\n\n\t\t}\n\n\t\tif(tzm < ty0) {\n\n\t\t\tentry |= 1;\n\n\t\t}\n\n\t} else {\n\n\t\t// XY-plane.\n\t\tif(txm < tz0) {\n\n\t\t\tentry |= 4;\n\n\t\t}\n\n\t\tif(tym < tz0) {\n\n\t\t\tentry |= 2;\n\n\t\t}\n\n\t}\n\n\treturn entry;\n\n}\n\n/**\n * Finds the next octant that intersects with the ray based on the exit plane of\n * the current one.\n *\n * @private\n * @param {Number} currentOctant - The index of the current octant.\n * @param {Number} tx1 - Ray projection parameter.\n * @param {Number} ty1 - Ray projection parameter.\n * @param {Number} tz1 - Ray projection parameter.\n * @return {Number} The index of the next octant that the ray travels through.\n */\n\nfunction findNextOctant(currentOctant, tx1, ty1, tz1) {\n\n\tlet min;\n\tlet exit = 0;\n\n\t// Find the exit plane.\n\tif(tx1 < ty1) {\n\n\t\tmin = tx1;\n\t\texit = 0; // YZ-plane.\n\n\t} else {\n\n\t\tmin = ty1;\n\t\texit = 1; // XZ-plane.\n\n\t}\n\n\tif(tz1 < min) {\n\n\t\texit = 2; // XY-plane.\n\n\t}\n\n\treturn octantTable[currentOctant][exit];\n\n}\n\n/**\n * Finds all octants that intersect with the given ray.\n *\n * @private\n * @param {Octant} octant - The current octant.\n * @param {Number} tx0 - Ray projection parameter. Initial tx0 = (minX - rayOriginX) / rayDirectionX.\n * @param {Number} ty0 - Ray projection parameter. Initial ty0 = (minY - rayOriginY) / rayDirectionY.\n * @param {Number} tz0 - Ray projection parameter. Initial tz0 = (minZ - rayOriginZ) / rayDirectionZ.\n * @param {Number} tx1 - Ray projection parameter. Initial tx1 = (maxX - rayOriginX) / rayDirectionX.\n * @param {Number} ty1 - Ray projection parameter. Initial ty1 = (maxY - rayOriginY) / rayDirectionY.\n * @param {Number} tz1 - Ray projection parameter. Initial tz1 = (maxZ - rayOriginZ) / rayDirectionZ.\n * @param {Raycaster} raycaster - The raycaster.\n * @param {Array} intersects - An array to be filled with the intersecting octants.\n */\n\nfunction raycastOctant(octant, tx0, ty0, tz0, tx1, ty1, tz1, raycaster, intersects) {\n\n\tconst children = octant.children;\n\n\tlet currentOctant;\n\tlet txm, tym, tzm;\n\n\tif(tx1 >= 0.0 && ty1 >= 0.0 && tz1 >= 0.0) {\n\n\t\tif(children === null) {\n\n\t\t\t// Leaf.\n\t\t\tintersects.push(octant);\n\n\t\t} else {\n\n\t\t\t// Compute means.\n\t\t\ttxm = 0.5 * (tx0 + tx1);\n\t\t\ttym = 0.5 * (ty0 + ty1);\n\t\t\ttzm = 0.5 * (tz0 + tz1);\n\n\t\t\tcurrentOctant = findEntryOctant(tx0, ty0, tz0, txm, tym, tzm);\n\n\t\t\tdo {\n\n\t\t\t\t/* The possibilities for the next node are passed in the same respective\n\t\t\t\t * order as the t-values. Hence, if the first value is found to be the\n\t\t\t\t * greatest, the fourth one will be returned. If the second value is the\n\t\t\t\t * greatest, the fifth one will be returned, etc.\n\t\t\t\t */\n\n\t\t\t\tswitch(currentOctant) {\n\n\t\t\t\t\tcase 0:\n\t\t\t\t\t\traycastOctant(children[flags], tx0, ty0, tz0, txm, tym, tzm, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, tym, tzm);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 1:\n\t\t\t\t\t\traycastOctant(children[flags ^ 1], tx0, ty0, tzm, txm, tym, tz1, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, tym, tz1);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 2:\n\t\t\t\t\t\traycastOctant(children[flags ^ 2], tx0, tym, tz0, txm, ty1, tzm, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, ty1, tzm);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 3:\n\t\t\t\t\t\traycastOctant(children[flags ^ 3], tx0, tym, tzm, txm, ty1, tz1, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, txm, ty1, tz1);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 4:\n\t\t\t\t\t\traycastOctant(children[flags ^ 4], txm, ty0, tz0, tx1, tym, tzm, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, tym, tzm);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 5:\n\t\t\t\t\t\traycastOctant(children[flags ^ 5], txm, ty0, tzm, tx1, tym, tz1, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, tym, tz1);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 6:\n\t\t\t\t\t\traycastOctant(children[flags ^ 6], txm, tym, tz0, tx1, ty1, tzm, raycaster, intersects);\n\t\t\t\t\t\tcurrentOctant = findNextOctant(currentOctant, tx1, ty1, tzm);\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase 7:\n\t\t\t\t\t\traycastOctant(children[flags ^ 7], txm, tym, tzm, tx1, ty1, tz1, raycaster, intersects);\n\t\t\t\t\t\t// Far top right octant. No other octants can be reached from here.\n\t\t\t\t\t\tcurrentOctant = 8;\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t}\n\n\t\t\t} while(currentOctant < 8);\n\n\t\t}\n\n\t}\n\n}\n\n/**\n * An octree raycaster.\n *\n * Based on:\n *  \"An Efficient Parametric Algorithm for Octree Traversal\"\n *  by J. Revelles et al. (2000).\n */\n\nexport class OctreeRaycaster {\n\n\t/**\n\t * Finds the octants that intersect with the given ray. The intersecting\n\t * octants are sorted by distance, closest first.\n\t *\n\t * @param {Octree} octree - An octree.\n\t * @param {Raycaster} raycaster - A raycaster.\n\t * @param {Array} intersects - A list to be filled with intersecting octants.\n\t */\n\n\tstatic intersectOctree(octree, raycaster, intersects) {\n\n\t\t// Translate the octree extents to the scene origin.\n\t\tconst min = b.min.set(0, 0, 0);\n\t\tconst max = b.max.subVectors(octree.max, octree.min);\n\n\t\tconst dimensions = octree.getDimensions(v[0]);\n\t\tconst halfDimensions = v[1].copy(dimensions).multiplyScalar(0.5);\n\n\t\tconst origin = r.origin.copy(raycaster.ray.origin);\n\t\tconst direction = r.direction.copy(raycaster.ray.direction);\n\n\t\tlet invDirX, invDirY, invDirZ;\n\t\tlet tx0, tx1, ty0, ty1, tz0, tz1;\n\n\t\t// Translate the ray to the center of the octree.\n\t\torigin.sub(octree.getCenter(v[2])).add(halfDimensions);\n\n\t\t// Reset all flags.\n\t\tflags = 0;\n\n\t\t// Handle rays with negative directions.\n\t\tif(direction.x < 0.0) {\n\n\t\t\torigin.x = dimensions.x - origin.x;\n\t\t\tdirection.x = -direction.x;\n\t\t\tflags |= 4;\n\n\t\t}\n\n\t\tif(direction.y < 0.0) {\n\n\t\t\torigin.y = dimensions.y - origin.y;\n\t\t\tdirection.y = -direction.y;\n\t\t\tflags |= 2;\n\n\t\t}\n\n\t\tif(direction.z < 0.0) {\n\n\t\t\torigin.z = dimensions.z - origin.z;\n\t\t\tdirection.z = -direction.z;\n\t\t\tflags |= 1;\n\n\t\t}\n\n\t\t// Improve IEEE double stability.\n\t\tinvDirX = 1.0 / direction.x;\n\t\tinvDirY = 1.0 / direction.y;\n\t\tinvDirZ = 1.0 / direction.z;\n\n\t\t// Project the ray to the root's boundaries.\n\t\ttx0 = (min.x - origin.x) * invDirX;\n\t\ttx1 = (max.x - origin.x) * invDirX;\n\t\tty0 = (min.y - origin.y) * invDirY;\n\t\tty1 = (max.y - origin.y) * invDirY;\n\t\ttz0 = (min.z - origin.z) * invDirZ;\n\t\ttz1 = (max.z - origin.z) * invDirZ;\n\n\t\t// Check if the ray hits the octree.\n\t\tif(Math.max(Math.max(tx0, ty0), tz0) < Math.min(Math.min(tx1, ty1), tz1)) {\n\n\t\t\t// Find the intersecting octants.\n\t\t\traycastOctant(octree.root, tx0, ty0, tz0, tx1, ty1, tz1, raycaster, intersects);\n\n\t\t}\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/core/OctreeRaycaster.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/OctreeRaycaster.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 108,
+    "__docId__": 107,
     "kind": "variable",
     "name": "v",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2020,7 +2009,7 @@
     "ignore": true
   },
   {
-    "__docId__": 109,
+    "__docId__": 108,
     "kind": "variable",
     "name": "b",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2049,7 +2038,7 @@
     "ignore": true
   },
   {
-    "__docId__": 110,
+    "__docId__": 109,
     "kind": "variable",
     "name": "r",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2078,7 +2067,7 @@
     "ignore": true
   },
   {
-    "__docId__": 111,
+    "__docId__": 110,
     "kind": "variable",
     "name": "octantTable",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2107,7 +2096,7 @@
     "ignore": true
   },
   {
-    "__docId__": 112,
+    "__docId__": 111,
     "kind": "variable",
     "name": "flags",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2130,7 +2119,7 @@
     "ignore": true
   },
   {
-    "__docId__": 113,
+    "__docId__": 112,
     "kind": "function",
     "name": "findEntryOctant",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2217,7 +2206,7 @@
     "ignore": true
   },
   {
-    "__docId__": 114,
+    "__docId__": 113,
     "kind": "function",
     "name": "findNextOctant",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2284,7 +2273,7 @@
     "ignore": true
   },
   {
-    "__docId__": 115,
+    "__docId__": 114,
     "kind": "function",
     "name": "raycastOctant",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2394,7 +2383,7 @@
     "ignore": true
   },
   {
-    "__docId__": 116,
+    "__docId__": 115,
     "kind": "class",
     "name": "OctreeRaycaster",
     "memberof": "src/core/OctreeRaycaster.js",
@@ -2409,7 +2398,7 @@
     "interface": false
   },
   {
-    "__docId__": 117,
+    "__docId__": 116,
     "kind": "method",
     "name": "intersectOctree",
     "memberof": "src/core/OctreeRaycaster.js~OctreeRaycaster",
@@ -2455,12 +2444,23 @@
     "return": null
   },
   {
+    "__docId__": 117,
+    "kind": "file",
+    "name": "src/core/index.js",
+    "content": "/**\n * Core components.\n *\n * @module sparse-octree/core\n */\n\nexport { CubicOctant } from \"./CubicOctant.js\";\nexport { Octree } from \"./Octree.js\";\nexport { Octant, pattern, edges } from \"./Octant.js\";\nexport { OctantIterator } from \"./OctantIterator.js\";\nexport { OctreeRaycaster } from \"./OctreeRaycaster.js\";\n",
+    "static": true,
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/core/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
     "__docId__": 118,
     "kind": "file",
     "name": "src/index.js",
-    "content": "/**\r\n * Exposure of the library components.\r\n *\r\n * @module sparse-octree\r\n */\r\n\r\nexport {\r\n\tCubicOctant,\r\n\tedges,\r\n\tOctant,\r\n\tOctree,\r\n\tOctantIterator,\r\n\tOctreeRaycaster,\r\n\tpattern\r\n} from \"./core\";\r\n\r\nexport {\r\n\tPointOctant,\r\n\tPointOctree,\r\n\tRayPointIntersection\r\n} from \"./points\";\r\n\r\nexport {\r\n\tOctreeUtils\r\n} from \"./utils\";\r\n",
+    "content": "/**\n * Exposure of the library components.\n *\n * @module sparse-octree\n */\n\nexport {\n\tCubicOctant,\n\tedges,\n\tOctant,\n\tOctree,\n\tOctantIterator,\n\tOctreeRaycaster,\n\tpattern\n} from \"./core\";\n\nexport {\n\tPointOctant,\n\tPointOctree,\n\tRayPointIntersection\n} from \"./points\";\n\nexport {\n\tOctreeUtils\n} from \"./utils\";\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/index.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/index.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -2468,27 +2468,16 @@
   {
     "__docId__": 119,
     "kind": "file",
-    "name": "src/points/index.js",
-    "content": "/**\r\n * Point-oriented octree components.\r\n *\r\n * @module sparse-octree/points\r\n */\r\n\r\nexport { PointOctant } from \"./PointOctant.js\";\r\nexport { PointOctree } from \"./PointOctree.js\";\r\nexport { RayPointIntersection } from \"./RayPointIntersection.js\";\r\n",
+    "name": "src/points/PointOctant.js",
+    "content": "import { Vector3 } from \"three\";\nimport { Octant } from \"../core/Octant.js\";\n\n/**\n * A point.\n *\n * @type {Vector3}\n * @private\n */\n\nconst p = new Vector3();\n\n/**\n * An octant that maintains points.\n */\n\nexport class PointOctant extends Octant {\n\n\t/**\n\t * Constructs a new point octant.\n\t *\n\t * @param {Vector3} [min] - The lower bounds.\n\t * @param {Vector3} [max] - The upper bounds.\n\t */\n\n\tconstructor(min, max) {\n\n\t\tsuper(min, max);\n\n\t\t/**\n\t\t * The points.\n\t\t *\n\t\t * @type {Vector3[]}\n\t\t */\n\n\t\tthis.points = null;\n\n\t\t/**\n\t\t * Point data.\n\t\t *\n\t\t * @type {Array}\n\t\t */\n\n\t\tthis.data = null;\n\n\t}\n\n\t/**\n\t * Computes the distance squared from this octant to the given point.\n\t *\n\t * @param {Vector3} point - A point.\n\t * @return {Number} The distance squared.\n\t */\n\n\tdistanceToSquared(point) {\n\n\t\tconst clampedPoint = p.copy(point).clamp(this.min, this.max);\n\n\t\treturn clampedPoint.sub(point).lengthSquared();\n\n\t}\n\n\t/**\n\t * Computes the distance squared from the center of this octant to the given\n\t * point.\n\t *\n\t * @param {Vector3} point - A point.\n\t * @return {Number} The distance squared.\n\t */\n\n\tdistanceToCenterSquared(point) {\n\n\t\tconst center = this.getCenter(p);\n\n\t\tconst dx = point.x - center.x;\n\t\tconst dy = point.y - center.x;\n\t\tconst dz = point.z - center.z;\n\n\t\treturn dx * dx + dy * dy + dz * dz;\n\n\t}\n\n\t/**\n\t * Checks if the given point lies inside this octant's boundaries.\n\t *\n\t * This method can also be used to check if this octant intersects a sphere by\n\t * providing a radius as bias.\n\t *\n\t * @param {Vector3} point - A point.\n\t * @param {Number} bias - A padding that extends the boundaries temporarily.\n\t * @return {Boolean} Whether the given point lies inside this octant.\n\t */\n\n\tcontains(point, bias) {\n\n\t\tconst min = this.min;\n\t\tconst max = this.max;\n\n\t\treturn (\n\t\t\tpoint.x >= min.x - bias &&\n\t\t\tpoint.y >= min.y - bias &&\n\t\t\tpoint.z >= min.z - bias &&\n\t\t\tpoint.x <= max.x + bias &&\n\t\t\tpoint.y <= max.y + bias &&\n\t\t\tpoint.z <= max.z + bias\n\t\t);\n\n\t}\n\n\t/**\n\t * Redistributes existing points to child octants.\n\t *\n\t * @param {Number} bias - A proximity threshold.\n\t */\n\n\tredistribute(bias) {\n\n\t\tconst children = this.children;\n\t\tconst points = this.points;\n\t\tconst data = this.data;\n\n\t\tlet i, j, il, jl;\n\t\tlet child, point, entry;\n\n\t\tif(children !== null && points !== null) {\n\n\t\t\tfor(i = 0, il = points.length; i < il; ++i) {\n\n\t\t\t\tpoint = points[i];\n\t\t\t\tentry = data[i];\n\n\t\t\t\tfor(j = 0, jl = children.length; j < jl; ++j) {\n\n\t\t\t\t\tchild = children[j];\n\n\t\t\t\t\tif(child.contains(point, bias)) {\n\n\t\t\t\t\t\tif(child.points === null) {\n\n\t\t\t\t\t\t\tchild.points = [];\n\t\t\t\t\t\t\tchild.data = [];\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tchild.points.push(point);\n\t\t\t\t\t\tchild.data.push(entry);\n\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t\tthis.points = null;\n\t\tthis.data = null;\n\n\t}\n\n\t/**\n\t * Gathers all points from the children. The children are expected to be leaf\n\t * octants and will be dropped afterwards.\n\t */\n\n\tmerge() {\n\n\t\tconst children = this.children;\n\n\t\tlet i, l;\n\t\tlet child;\n\n\t\tif(children !== null) {\n\n\t\t\tthis.points = [];\n\t\t\tthis.data = [];\n\n\t\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\t\tchild = children[i];\n\n\t\t\t\tif(child.points !== null) {\n\n\t\t\t\t\tthis.points.push(...child.points);\n\t\t\t\t\tthis.data.push(...child.data);\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t\tthis.children = null;\n\n\t\t}\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/points/index.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/points/PointOctant.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
     "__docId__": 120,
-    "kind": "file",
-    "name": "src/points/PointOctant.js",
-    "content": "import { Vector3 } from \"math-ds\";\r\nimport { Octant } from \"../core/Octant.js\";\r\n\r\n/**\r\n * A point.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n */\r\n\r\nconst p = new Vector3();\r\n\r\n/**\r\n * An octant that maintains points.\r\n */\r\n\r\nexport class PointOctant extends Octant {\r\n\r\n\t/**\r\n\t * Constructs a new point octant.\r\n\t *\r\n\t * @param {Vector3} [min] - The lower bounds.\r\n\t * @param {Vector3} [max] - The upper bounds.\r\n\t */\r\n\r\n\tconstructor(min, max) {\r\n\r\n\t\tsuper(min, max);\r\n\r\n\t\t/**\r\n\t\t * The points.\r\n\t\t *\r\n\t\t * @type {Vector3[]}\r\n\t\t */\r\n\r\n\t\tthis.points = null;\r\n\r\n\t\t/**\r\n\t\t * Point data.\r\n\t\t *\r\n\t\t * @type {Array}\r\n\t\t */\r\n\r\n\t\tthis.data = null;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Computes the distance squared from this octant to the given point.\r\n\t *\r\n\t * @param {Vector3} point - A point.\r\n\t * @return {Number} The distance squared.\r\n\t */\r\n\r\n\tdistanceToSquared(point) {\r\n\r\n\t\tconst clampedPoint = p.copy(point).clamp(this.min, this.max);\r\n\r\n\t\treturn clampedPoint.sub(point).lengthSquared();\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Computes the distance squared from the center of this octant to the given\r\n\t * point.\r\n\t *\r\n\t * @param {Vector3} point - A point.\r\n\t * @return {Number} The distance squared.\r\n\t */\r\n\r\n\tdistanceToCenterSquared(point) {\r\n\r\n\t\tconst center = this.getCenter(p);\r\n\r\n\t\tconst dx = point.x - center.x;\r\n\t\tconst dy = point.y - center.x;\r\n\t\tconst dz = point.z - center.z;\r\n\r\n\t\treturn dx * dx + dy * dy + dz * dz;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Checks if the given point lies inside this octant's boundaries.\r\n\t *\r\n\t * This method can also be used to check if this octant intersects a sphere by\r\n\t * providing a radius as bias.\r\n\t *\r\n\t * @param {Vector3} point - A point.\r\n\t * @param {Number} bias - A padding that extends the boundaries temporarily.\r\n\t * @return {Boolean} Whether the given point lies inside this octant.\r\n\t */\r\n\r\n\tcontains(point, bias) {\r\n\r\n\t\tconst min = this.min;\r\n\t\tconst max = this.max;\r\n\r\n\t\treturn (\r\n\t\t\tpoint.x >= min.x - bias &&\r\n\t\t\tpoint.y >= min.y - bias &&\r\n\t\t\tpoint.z >= min.z - bias &&\r\n\t\t\tpoint.x <= max.x + bias &&\r\n\t\t\tpoint.y <= max.y + bias &&\r\n\t\t\tpoint.z <= max.z + bias\r\n\t\t);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Redistributes existing points to child octants.\r\n\t *\r\n\t * @param {Number} bias - A proximity threshold.\r\n\t */\r\n\r\n\tredistribute(bias) {\r\n\r\n\t\tconst children = this.children;\r\n\t\tconst points = this.points;\r\n\t\tconst data = this.data;\r\n\r\n\t\tlet i, j, il, jl;\r\n\t\tlet child, point, entry;\r\n\r\n\t\tif(children !== null && points !== null) {\r\n\r\n\t\t\tfor(i = 0, il = points.length; i < il; ++i) {\r\n\r\n\t\t\t\tpoint = points[i];\r\n\t\t\t\tentry = data[i];\r\n\r\n\t\t\t\tfor(j = 0, jl = children.length; j < jl; ++j) {\r\n\r\n\t\t\t\t\tchild = children[j];\r\n\r\n\t\t\t\t\tif(child.contains(point, bias)) {\r\n\r\n\t\t\t\t\t\tif(child.points === null) {\r\n\r\n\t\t\t\t\t\t\tchild.points = [];\r\n\t\t\t\t\t\t\tchild.data = [];\r\n\r\n\t\t\t\t\t\t}\r\n\r\n\t\t\t\t\t\tchild.points.push(point);\r\n\t\t\t\t\t\tchild.data.push(entry);\r\n\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\tthis.points = null;\r\n\t\tthis.data = null;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Gathers all points from the children. The children are expected to be leaf\r\n\t * octants and will be dropped afterwards.\r\n\t */\r\n\r\n\tmerge() {\r\n\r\n\t\tconst children = this.children;\r\n\r\n\t\tlet i, l;\r\n\t\tlet child;\r\n\r\n\t\tif(children !== null) {\r\n\r\n\t\t\tthis.points = [];\r\n\t\t\tthis.data = [];\r\n\r\n\t\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\t\tchild = children[i];\r\n\r\n\t\t\t\tif(child.points !== null) {\r\n\r\n\t\t\t\t\tthis.points.push(...child.points);\r\n\t\t\t\t\tthis.data.push(...child.data);\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t\tthis.children = null;\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
-    "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/points/PointOctant.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 121,
     "kind": "variable",
     "name": "p",
     "memberof": "src/points/PointOctant.js",
@@ -2511,7 +2500,7 @@
     "ignore": true
   },
   {
-    "__docId__": 122,
+    "__docId__": 121,
     "kind": "class",
     "name": "PointOctant",
     "memberof": "src/points/PointOctant.js",
@@ -2529,7 +2518,7 @@
     ]
   },
   {
-    "__docId__": 123,
+    "__docId__": 122,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2564,7 +2553,7 @@
     ]
   },
   {
-    "__docId__": 124,
+    "__docId__": 123,
     "kind": "member",
     "name": "points",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2583,7 +2572,7 @@
     }
   },
   {
-    "__docId__": 125,
+    "__docId__": 124,
     "kind": "member",
     "name": "data",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2602,7 +2591,7 @@
     }
   },
   {
-    "__docId__": 126,
+    "__docId__": 125,
     "kind": "method",
     "name": "distanceToSquared",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2635,7 +2624,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 126,
     "kind": "method",
     "name": "distanceToCenterSquared",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2668,7 +2657,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 127,
     "kind": "method",
     "name": "contains",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2711,7 +2700,7 @@
     }
   },
   {
-    "__docId__": 129,
+    "__docId__": 128,
     "kind": "method",
     "name": "redistribute",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2737,7 +2726,7 @@
     "return": null
   },
   {
-    "__docId__": 132,
+    "__docId__": 131,
     "kind": "method",
     "name": "merge",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2752,7 +2741,7 @@
     "return": null
   },
   {
-    "__docId__": 135,
+    "__docId__": 134,
     "kind": "member",
     "name": "children",
     "memberof": "src/points/PointOctant.js~PointOctant",
@@ -2769,18 +2758,18 @@
     }
   },
   {
-    "__docId__": 136,
+    "__docId__": 135,
     "kind": "file",
     "name": "src/points/PointOctree.js",
-    "content": "import { Vector3 } from \"math-ds\";\r\nimport { Octree } from \"../core/Octree.js\";\r\nimport { PointOctant } from \"./PointOctant.js\";\r\nimport { RayPointIntersection } from \"./RayPointIntersection.js\";\r\n\r\n/**\r\n * A threshold for distance comparisons.\r\n *\r\n * @type {Number}\r\n * @private\r\n */\r\n\r\nconst THRESHOLD = 1e-6;\r\n\r\n/**\r\n * Recursively counts how many points are in the given octant.\r\n *\r\n * @private\r\n * @param {Octant} octant - An octant.\r\n * @return {Number} The amount of points.\r\n */\r\n\r\nfunction countPoints(octant) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet result = 0;\r\n\tlet i, l;\r\n\r\n\tif(children !== null) {\r\n\r\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\tresult += countPoints(children[i]);\r\n\r\n\t\t}\r\n\r\n\t} else if(octant.points !== null) {\r\n\r\n\t\tresult = octant.points.length;\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively places a point into the octree.\r\n *\r\n * @private\r\n * @param {Vector3} point - A point.\r\n * @param {Object} data - An object that the point represents.\r\n * @param {Octree} octree - The octree.\r\n * @param {Octant} octant - The current octant.\r\n * @param {Number} depth - The current depth.\r\n * @return {Boolean} Whether the operation was successful.\r\n */\r\n\r\nfunction put(point, data, octree, octant, depth) {\r\n\r\n\tlet children = octant.children;\r\n\tlet exists = false;\r\n\tlet done = false;\r\n\tlet i, l;\r\n\r\n\tif(octant.contains(point, octree.bias)) {\r\n\r\n\t\tif(children === null) {\r\n\r\n\t\t\tif(octant.points === null) {\r\n\r\n\t\t\t\toctant.points = [];\r\n\t\t\t\toctant.data = [];\r\n\r\n\t\t\t} else {\r\n\r\n\t\t\t\tfor(i = 0, l = octant.points.length; !exists && i < l; ++i) {\r\n\r\n\t\t\t\t\texists = octant.points[i].equals(point);\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t\tif(exists) {\r\n\r\n\t\t\t\toctant.data[i - 1] = data;\r\n\t\t\t\tdone = true;\r\n\r\n\t\t\t} else if(octant.points.length < octree.maxPoints || depth === octree.maxDepth) {\r\n\r\n\t\t\t\toctant.points.push(point.clone());\r\n\t\t\t\toctant.data.push(data);\r\n\t\t\t\t++octree.pointCount;\r\n\t\t\t\tdone = true;\r\n\r\n\t\t\t} else {\r\n\r\n\t\t\t\toctant.split();\r\n\t\t\t\toctant.redistribute(octree.bias);\r\n\t\t\t\tchildren = octant.children;\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\tif(children !== null) {\r\n\r\n\t\t\t++depth;\r\n\r\n\t\t\tfor(i = 0, l = children.length; !done && i < l; ++i) {\r\n\r\n\t\t\t\tdone = put(point, data, octree, children[i], depth);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn done;\r\n\r\n}\r\n\r\n/**\r\n * Recursively finds a point in the octree and removes it.\r\n *\r\n * @private\r\n * @param {Vector3} point - A point.\r\n * @param {Octree} octree - The octree.\r\n * @param {Octant} octant - The current octant.\r\n * @param {Octant} parent - The parent of the current octant.\r\n * @return {Object} The data entry of the removed point or null if it didn't exist.\r\n */\r\n\r\nfunction remove(point, octree, octant, parent) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet result = null;\r\n\r\n\tlet i, l;\r\n\tlet points, data, last;\r\n\r\n\tif(octant.contains(point, octree.bias)) {\r\n\r\n\t\tif(children !== null) {\r\n\r\n\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\r\n\r\n\t\t\t\tresult = remove(point, octree, children[i], octant);\r\n\r\n\t\t\t}\r\n\r\n\t\t} else if(octant.points !== null) {\r\n\r\n\t\t\tpoints = octant.points;\r\n\t\t\tdata = octant.data;\r\n\r\n\t\t\tfor(i = 0, l = points.length; i < l; ++i) {\r\n\r\n\t\t\t\tif(points[i].equals(point)) {\r\n\r\n\t\t\t\t\tlast = l - 1;\r\n\t\t\t\t\tresult = data[i];\r\n\r\n\t\t\t\t\t// If the point is NOT the last one in the array:\r\n\t\t\t\t\tif(i < last) {\r\n\r\n\t\t\t\t\t\t// Overwrite with the last point and data entry.\r\n\t\t\t\t\t\tpoints[i] = points[last];\r\n\t\t\t\t\t\tdata[i] = data[last];\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t\t// Drop the last entry.\r\n\t\t\t\t\tpoints.pop();\r\n\t\t\t\t\tdata.pop();\r\n\r\n\t\t\t\t\t--octree.pointCount;\r\n\r\n\t\t\t\t\tif(parent !== null && countPoints(parent) <= octree.maxPoints) {\r\n\r\n\t\t\t\t\t\tparent.merge();\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively finds a point in the octree and fetches the associated data.\r\n *\r\n * @private\r\n * @param {Vector3} point - A point.\r\n * @param {Octree} octree - The octree.\r\n * @param {Octant} octant - The current octant octant.\r\n * @return {Object} The data entry that is associated with the given point or null if it doesn't exist.\r\n */\r\n\r\nfunction fetch(point, octree, octant) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet result = null;\r\n\r\n\tlet i, l;\r\n\tlet points;\r\n\r\n\tif(octant.contains(point, octree.bias)) {\r\n\r\n\t\tif(children !== null) {\r\n\r\n\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\r\n\r\n\t\t\t\tresult = fetch(point, octree, children[i]);\r\n\r\n\t\t\t}\r\n\r\n\t\t} else if(octant.points !== null) {\r\n\r\n\t\t\tpoints = octant.points;\r\n\r\n\t\t\tfor(i = 0, l = points.length; result === null && i < l; ++i) {\r\n\r\n\t\t\t\tif(point.distanceToSquared(points[i]) <= THRESHOLD) {\r\n\r\n\t\t\t\t\tresult = octant.data[i];\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively moves an existing point to a new position.\r\n *\r\n * @private\r\n * @param {Vector3} point - The point.\r\n * @param {Vector3} position - The new position.\r\n * @param {Octree} octree - The octree.\r\n * @param {Octant} octant - The current octant.\r\n * @param {Octant} parent - The parent of the current octant.\r\n * @param {Number} depth - The current depth.\r\n * @return {Object} The data entry of the updated point or null if it didn't exist.\r\n */\r\n\r\nfunction move(point, position, octree, octant, parent, depth) {\r\n\r\n\tconst children = octant.children;\r\n\r\n\tlet result = null;\r\n\r\n\tlet i, l;\r\n\tlet points;\r\n\r\n\tif(octant.contains(point, octree.bias)) {\r\n\r\n\t\tif(octant.contains(position, octree.bias)) {\r\n\r\n\t\t\t// The point and the new position both fall into the current octant.\r\n\t\t\tif(children !== null) {\r\n\r\n\t\t\t\t++depth;\r\n\r\n\t\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\r\n\r\n\t\t\t\t\tresult = move(point, position, octree, children[i], octant, depth);\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t} else if(octant.points !== null) {\r\n\r\n\t\t\t\t// No divergence - the point can be updated in place.\r\n\t\t\t\tpoints = octant.points;\r\n\r\n\t\t\t\tfor(i = 0, l = points.length; i < l; ++i) {\r\n\r\n\t\t\t\t\tif(point.distanceToSquared(points[i]) <= THRESHOLD) {\r\n\r\n\t\t\t\t\t\t// The point exists! Update its position.\r\n\t\t\t\t\t\tpoints[i].copy(position);\r\n\t\t\t\t\t\tresult = octant.data[i];\r\n\r\n\t\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t} else {\r\n\r\n\t\t\t// Retrieve the point and remove it.\r\n\t\t\tresult = remove(point, octree, octant, parent);\r\n\r\n\t\t\t// Go back to the parent octant and add the updated point.\r\n\t\t\tput(position, result, octree, parent, depth - 1);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively finds the closest point to the given one.\r\n *\r\n * @private\r\n * @param {Vector3} point - The point.\r\n * @param {Number} maxDistance - The maximum distance.\r\n * @param {Boolean} skipSelf - Whether a point that is exactly at the given position should be skipped.\r\n * @param {Octant} octant - The current octant.\r\n * @return {Object} An object representing the nearest point or null if there is none. The object has a point and a data property.\r\n */\r\n\r\nfunction findNearestPoint(point, maxDistance, skipSelf, octant) {\r\n\r\n\tconst points = octant.points;\r\n\tconst children = octant.children;\r\n\r\n\tlet result = null;\r\n\tlet bestDist = maxDistance;\r\n\r\n\tlet i, l;\r\n\tlet p, distSq;\r\n\r\n\tlet sortedChildren;\r\n\tlet child, childResult;\r\n\r\n\tif(children !== null) {\r\n\r\n\t\t// Sort the children: smallest distance to the point first, ASC.\r\n\t\tsortedChildren = children.map((child) => {\r\n\r\n\t\t\t// Precompute distances.\r\n\t\t\treturn {\r\n\t\t\t\toctant: child,\r\n\t\t\t\tdistance: child.distanceToCenterSquared(point)\r\n\t\t\t};\r\n\r\n\t\t}).sort((a, b) => a.distance - b.distance);\r\n\r\n\t\t// Traverse from closest to furthest.\r\n\t\tfor(i = 0, l = sortedChildren.length; i < l; ++i) {\r\n\r\n\t\t\t// Unpack octant.\r\n\t\t\tchild = sortedChildren[i].octant;\r\n\r\n\t\t\tif(child.contains(point, bestDist)) {\r\n\r\n\t\t\t\tchildResult = findNearestPoint(point, bestDist, skipSelf, child);\r\n\r\n\t\t\t\tif(childResult !== null) {\r\n\r\n\t\t\t\t\tdistSq = childResult.point.distanceToSquared(point);\r\n\r\n\t\t\t\t\tif((!skipSelf || distSq > 0.0) && distSq < bestDist) {\r\n\r\n\t\t\t\t\t\tbestDist = distSq;\r\n\t\t\t\t\t\tresult = childResult;\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t} else if(points !== null) {\r\n\r\n\t\tfor(i = 0, l = points.length; i < l; ++i) {\r\n\r\n\t\t\tp = points[i];\r\n\t\t\tdistSq = point.distanceToSquared(p);\r\n\r\n\t\t\tif((!skipSelf || distSq > 0.0) && distSq < bestDist) {\r\n\r\n\t\t\t\tbestDist = distSq;\r\n\r\n\t\t\t\tresult = {\r\n\t\t\t\t\tpoint: p.clone(),\r\n\t\t\t\t\tdata: octant.data[i]\r\n\t\t\t\t};\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\treturn result;\r\n\r\n}\r\n\r\n/**\r\n * Recursively finds points that are inside the specified radius around a given\r\n * position.\r\n *\r\n * @private\r\n * @param {Vector3} point - A position.\r\n * @param {Number} radius - A radius.\r\n * @param {Boolean} skipSelf - Whether a point that is exactly at the given position should be skipped.\r\n * @param {Octant} octant - The current octant.\r\n * @param {Array} result - An array to be filled with objects, each containing a point and a data property.\r\n */\r\n\r\nfunction findPoints(point, radius, skipSelf, octant, result) {\r\n\r\n\tconst points = octant.points;\r\n\tconst children = octant.children;\r\n\tconst rSq = radius * radius;\r\n\r\n\tlet i, l;\r\n\r\n\tlet p, distSq;\r\n\tlet child;\r\n\r\n\tif(children !== null) {\r\n\r\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\r\n\r\n\t\t\tchild = children[i];\r\n\r\n\t\t\tif(child.contains(point, radius)) {\r\n\r\n\t\t\t\tfindPoints(point, radius, skipSelf, child, result);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t} else if(points !== null) {\r\n\r\n\t\tfor(i = 0, l = points.length; i < l; ++i) {\r\n\r\n\t\t\tp = points[i];\r\n\t\t\tdistSq = point.distanceToSquared(p);\r\n\r\n\t\t\tif((!skipSelf || distSq > 0.0) && distSq <= rSq) {\r\n\r\n\t\t\t\tresult.push({\r\n\t\t\t\t\tpoint: p.clone(),\r\n\t\t\t\t\tdata: octant.data[i]\r\n\t\t\t\t});\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * An octree that manages points.\r\n */\r\n\r\nexport class PointOctree extends Octree {\r\n\r\n\t/**\r\n\t * Constructs a new point octree.\r\n\t *\r\n\t * @param {Vector3} [min] - The lower bounds of the tree.\r\n\t * @param {Vector3} [max] - The upper bounds of the tree.\r\n\t * @param {Number} [bias=0.0] - An octant boundary bias.\r\n\t * @param {Number} [maxPoints=8] - Number of distinct points per octant before it splits up.\r\n\t * @param {Number} [maxDepth=8] - The maximum tree depth level, starting at 0.\r\n\t */\r\n\r\n\tconstructor(min, max, bias = 0.0, maxPoints = 8, maxDepth = 8) {\r\n\r\n\t\tsuper();\r\n\r\n\t\t/**\r\n\t\t * The root octant.\r\n\t\t *\r\n\t\t * @type {PointOctant}\r\n\t\t */\r\n\r\n\t\tthis.root = new PointOctant(min, max);\r\n\r\n\t\t/**\r\n\t\t * An octant boundary bias.\r\n\t\t *\r\n\t\t * The octree is considered \"loose\" with a bias greater than 0.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.bias = Math.max(0.0, bias);\r\n\r\n\t\t/**\r\n\t\t * Number of points per octant before a split occurs.\r\n\t\t *\r\n\t\t * This value works together with the maximum depth as a secondary limiting\r\n\t\t * factor. Smaller values cause splits to occur earlier which results in a\r\n\t\t * faster and deeper tree growth.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.maxPoints = Math.max(1, Math.round(maxPoints));\r\n\r\n\t\t/**\r\n\t\t * The maximum tree depth level.\r\n\t\t *\r\n\t\t * It's possible to use Infinity, but keep in mind that allowing infinitely\r\n\t\t * small octants can have a severely negative impact on performance.\r\n\t\t * Finding a value that works best for a specific scene is advisable.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t * @private\r\n\t\t */\r\n\r\n\t\tthis.maxDepth = Math.max(0, Math.round(maxDepth));\r\n\r\n\t\t/**\r\n\t\t * The amount of points that are currently in this octree.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t */\r\n\r\n\t\tthis.pointCount = 0;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Counts how many points are in the given octant.\r\n\t *\r\n\t * @param {Octant} octant - An octant.\r\n\t * @return {Number} The amount of points.\r\n\t */\r\n\r\n\tcountPoints(octant) {\r\n\r\n\t\treturn countPoints(octant);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Puts a point into the octree.\r\n\t *\r\n\t * @param {Vector3} point - A point. If it's already in the octree, the data entry will be updated.\r\n\t * @param {Object} data - A data object that belongs to the point.\r\n\t * @return {Boolean} Whether the operation was successful.\r\n\t */\r\n\r\n\tput(point, data) {\r\n\r\n\t\treturn put(point, data, this, this.root, 0);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Removes a point from the tree.\r\n\t *\r\n\t * @param {Vector3} point - A point.\r\n\t * @return {Object} The data entry of the removed point or null if it didn't exist.\r\n\t */\r\n\r\n\tremove(point) {\r\n\r\n\t\treturn remove(point, this, this.root, null);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Retrieves the data of the specified point.\r\n\t *\r\n\t * @param {Vector3} point - A position.\r\n\t * @return {Object} The data entry that is associated with the given point or null if it doesn't exist.\r\n\t */\r\n\r\n\tfetch(point) {\r\n\r\n\t\treturn fetch(point, this, this.root);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Moves an existing point to a new position. Has no effect if the point\r\n\t * doesn't exist.\r\n\t *\r\n\t * @param {Vector3} point - The point.\r\n\t * @param {Vector3} position - The new position.\r\n\t * @return {Object} The data entry of the updated point or null if it didn't exist.\r\n\t */\r\n\r\n\tmove(point, position) {\r\n\r\n\t\treturn move(point, position, this, this.root, null, 0);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Finds the closest point to the given one.\r\n\t *\r\n\t * @param {Vector3} point - A point.\r\n\t * @param {Number} [maxDistance=Infinity] - An upper limit for the distance between the points.\r\n\t * @param {Boolean} [skipSelf=false] - Whether a point that is exactly at the given position should be skipped.\r\n\t * @return {Object} An object representing the nearest point or null if there is none. The object has a point and a data property.\r\n\t */\r\n\r\n\tfindNearestPoint(point, maxDistance = Infinity, skipSelf = false) {\r\n\r\n\t\treturn findNearestPoint(point, maxDistance, skipSelf, this.root);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Finds points that are in the specified radius around the given position.\r\n\t *\r\n\t * @param {Vector3} point - A position.\r\n\t * @param {Number} radius - A radius.\r\n\t * @param {Boolean} [skipSelf=false] - Whether a point that is exactly at the given position should be skipped.\r\n\t * @return {Array} An array of objects, each containing a point and a data property.\r\n\t */\r\n\r\n\tfindPoints(point, radius, skipSelf = false) {\r\n\r\n\t\tconst result = [];\r\n\r\n\t\tfindPoints(point, radius, skipSelf, this.root, result);\r\n\r\n\t\treturn result;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Finds the points that intersect with the given ray.\r\n\t *\r\n\t * @param {Raycaster} raycaster - The raycaster.\r\n\t * @param {Array} [intersects] - An array to be filled with the intersecting points.\r\n\t * @return {RayPointIntersection[]} The intersecting points.\r\n\t */\r\n\r\n\traycast(raycaster, intersects = []) {\r\n\r\n\t\tconst octants = super.raycast(raycaster);\r\n\r\n\t\tif(octants.length > 0) {\r\n\r\n\t\t\t// Collect intersecting points.\r\n\t\t\tthis.testPoints(octants, raycaster, intersects);\r\n\r\n\t\t}\r\n\r\n\t\treturn intersects;\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Collects points that intersect with the given ray.\r\n\t *\r\n\t * @param {Octant[]} octants - An array containing octants that intersect with the ray.\r\n\t * @param {Raycaster} raycaster - The raycaster.\r\n\t * @param {Array} intersects - An array to be filled with intersecting points.\r\n\t */\r\n\r\n\ttestPoints(octants, raycaster, intersects) {\r\n\r\n\t\tconst threshold = raycaster.params.Points.threshold;\r\n\t\tconst thresholdSq = threshold * threshold;\r\n\r\n\t\tlet intersectPoint;\r\n\t\tlet distance, distanceToRay;\r\n\t\tlet rayPointDistanceSq;\r\n\r\n\t\tlet i, j, il, jl;\r\n\t\tlet octant, points, point;\r\n\r\n\t\tfor(i = 0, il = octants.length; i < il; ++i) {\r\n\r\n\t\t\toctant = octants[i];\r\n\t\t\tpoints = octant.points;\r\n\r\n\t\t\tif(points !== null) {\r\n\r\n\t\t\t\tfor(j = 0, jl = points.length; j < jl; ++j) {\r\n\r\n\t\t\t\t\tpoint = points[j];\r\n\t\t\t\t\trayPointDistanceSq = raycaster.ray.distanceSqToPoint(point);\r\n\r\n\t\t\t\t\tif(rayPointDistanceSq < thresholdSq) {\r\n\r\n\t\t\t\t\t\tintersectPoint = raycaster.ray.closestPointToPoint(point, new Vector3());\r\n\t\t\t\t\t\tdistance = raycaster.ray.origin.distanceTo(intersectPoint);\r\n\r\n\t\t\t\t\t\tif(distance >= raycaster.near && distance <= raycaster.far) {\r\n\r\n\t\t\t\t\t\t\tdistanceToRay = Math.sqrt(rayPointDistanceSq);\r\n\r\n\t\t\t\t\t\t\tintersects.push(new RayPointIntersection(\r\n\t\t\t\t\t\t\t\tdistance,\r\n\t\t\t\t\t\t\t\tdistanceToRay,\r\n\t\t\t\t\t\t\t\tintersectPoint,\r\n\t\t\t\t\t\t\t\toctant.data[j]\r\n\t\t\t\t\t\t\t));\r\n\r\n\t\t\t\t\t\t}\r\n\r\n\t\t\t\t\t}\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "import { Vector3 } from \"three\";\nimport { Octree } from \"../core/Octree.js\";\nimport { PointOctant } from \"./PointOctant.js\";\nimport { RayPointIntersection } from \"./RayPointIntersection.js\";\n\n/**\n * A threshold for distance comparisons.\n *\n * @type {Number}\n * @private\n */\n\nconst THRESHOLD = 1e-6;\n\n/**\n * Recursively counts how many points are in the given octant.\n *\n * @private\n * @param {Octant} octant - An octant.\n * @return {Number} The amount of points.\n */\n\nfunction countPoints(octant) {\n\n\tconst children = octant.children;\n\n\tlet result = 0;\n\tlet i, l;\n\n\tif(children !== null) {\n\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\tresult += countPoints(children[i]);\n\n\t\t}\n\n\t} else if(octant.points !== null) {\n\n\t\tresult = octant.points.length;\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively places a point into the octree.\n *\n * @private\n * @param {Vector3} point - A point.\n * @param {Object} data - An object that the point represents.\n * @param {Octree} octree - The octree.\n * @param {Octant} octant - The current octant.\n * @param {Number} depth - The current depth.\n * @return {Boolean} Whether the operation was successful.\n */\n\nfunction put(point, data, octree, octant, depth) {\n\n\tlet children = octant.children;\n\tlet exists = false;\n\tlet done = false;\n\tlet i, l;\n\n\tif(octant.contains(point, octree.bias)) {\n\n\t\tif(children === null) {\n\n\t\t\tif(octant.points === null) {\n\n\t\t\t\toctant.points = [];\n\t\t\t\toctant.data = [];\n\n\t\t\t} else {\n\n\t\t\t\tfor(i = 0, l = octant.points.length; !exists && i < l; ++i) {\n\n\t\t\t\t\texists = octant.points[i].equals(point);\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t\tif(exists) {\n\n\t\t\t\toctant.data[i - 1] = data;\n\t\t\t\tdone = true;\n\n\t\t\t} else if(octant.points.length < octree.maxPoints || depth === octree.maxDepth) {\n\n\t\t\t\toctant.points.push(point.clone());\n\t\t\t\toctant.data.push(data);\n\t\t\t\t++octree.pointCount;\n\t\t\t\tdone = true;\n\n\t\t\t} else {\n\n\t\t\t\toctant.split();\n\t\t\t\toctant.redistribute(octree.bias);\n\t\t\t\tchildren = octant.children;\n\n\t\t\t}\n\n\t\t}\n\n\t\tif(children !== null) {\n\n\t\t\t++depth;\n\n\t\t\tfor(i = 0, l = children.length; !done && i < l; ++i) {\n\n\t\t\t\tdone = put(point, data, octree, children[i], depth);\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n\treturn done;\n\n}\n\n/**\n * Recursively finds a point in the octree and removes it.\n *\n * @private\n * @param {Vector3} point - A point.\n * @param {Octree} octree - The octree.\n * @param {Octant} octant - The current octant.\n * @param {Octant} parent - The parent of the current octant.\n * @return {Object} The data entry of the removed point or null if it didn't exist.\n */\n\nfunction remove(point, octree, octant, parent) {\n\n\tconst children = octant.children;\n\n\tlet result = null;\n\n\tlet i, l;\n\tlet points, data, last;\n\n\tif(octant.contains(point, octree.bias)) {\n\n\t\tif(children !== null) {\n\n\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\n\n\t\t\t\tresult = remove(point, octree, children[i], octant);\n\n\t\t\t}\n\n\t\t} else if(octant.points !== null) {\n\n\t\t\tpoints = octant.points;\n\t\t\tdata = octant.data;\n\n\t\t\tfor(i = 0, l = points.length; i < l; ++i) {\n\n\t\t\t\tif(points[i].equals(point)) {\n\n\t\t\t\t\tlast = l - 1;\n\t\t\t\t\tresult = data[i];\n\n\t\t\t\t\t// If the point is NOT the last one in the array:\n\t\t\t\t\tif(i < last) {\n\n\t\t\t\t\t\t// Overwrite with the last point and data entry.\n\t\t\t\t\t\tpoints[i] = points[last];\n\t\t\t\t\t\tdata[i] = data[last];\n\n\t\t\t\t\t}\n\n\t\t\t\t\t// Drop the last entry.\n\t\t\t\t\tpoints.pop();\n\t\t\t\t\tdata.pop();\n\n\t\t\t\t\t--octree.pointCount;\n\n\t\t\t\t\tif(parent !== null && countPoints(parent) <= octree.maxPoints) {\n\n\t\t\t\t\t\tparent.merge();\n\n\t\t\t\t\t}\n\n\t\t\t\t\tbreak;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively finds a point in the octree and fetches the associated data.\n *\n * @private\n * @param {Vector3} point - A point.\n * @param {Octree} octree - The octree.\n * @param {Octant} octant - The current octant octant.\n * @return {Object} The data entry that is associated with the given point or null if it doesn't exist.\n */\n\nfunction fetch(point, octree, octant) {\n\n\tconst children = octant.children;\n\n\tlet result = null;\n\n\tlet i, l;\n\tlet points;\n\n\tif(octant.contains(point, octree.bias)) {\n\n\t\tif(children !== null) {\n\n\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\n\n\t\t\t\tresult = fetch(point, octree, children[i]);\n\n\t\t\t}\n\n\t\t} else if(octant.points !== null) {\n\n\t\t\tpoints = octant.points;\n\n\t\t\tfor(i = 0, l = points.length; result === null && i < l; ++i) {\n\n\t\t\t\tif(point.distanceToSquared(points[i]) <= THRESHOLD) {\n\n\t\t\t\t\tresult = octant.data[i];\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively moves an existing point to a new position.\n *\n * @private\n * @param {Vector3} point - The point.\n * @param {Vector3} position - The new position.\n * @param {Octree} octree - The octree.\n * @param {Octant} octant - The current octant.\n * @param {Octant} parent - The parent of the current octant.\n * @param {Number} depth - The current depth.\n * @return {Object} The data entry of the updated point or null if it didn't exist.\n */\n\nfunction move(point, position, octree, octant, parent, depth) {\n\n\tconst children = octant.children;\n\n\tlet result = null;\n\n\tlet i, l;\n\tlet points;\n\n\tif(octant.contains(point, octree.bias)) {\n\n\t\tif(octant.contains(position, octree.bias)) {\n\n\t\t\t// The point and the new position both fall into the current octant.\n\t\t\tif(children !== null) {\n\n\t\t\t\t++depth;\n\n\t\t\t\tfor(i = 0, l = children.length; result === null && i < l; ++i) {\n\n\t\t\t\t\tresult = move(point, position, octree, children[i], octant, depth);\n\n\t\t\t\t}\n\n\t\t\t} else if(octant.points !== null) {\n\n\t\t\t\t// No divergence - the point can be updated in place.\n\t\t\t\tpoints = octant.points;\n\n\t\t\t\tfor(i = 0, l = points.length; i < l; ++i) {\n\n\t\t\t\t\tif(point.distanceToSquared(points[i]) <= THRESHOLD) {\n\n\t\t\t\t\t\t// The point exists! Update its position.\n\t\t\t\t\t\tpoints[i].copy(position);\n\t\t\t\t\t\tresult = octant.data[i];\n\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t} else {\n\n\t\t\t// Retrieve the point and remove it.\n\t\t\tresult = remove(point, octree, octant, parent);\n\n\t\t\t// Go back to the parent octant and add the updated point.\n\t\t\tput(position, result, octree, parent, depth - 1);\n\n\t\t}\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively finds the closest point to the given one.\n *\n * @private\n * @param {Vector3} point - The point.\n * @param {Number} maxDistance - The maximum distance.\n * @param {Boolean} skipSelf - Whether a point that is exactly at the given position should be skipped.\n * @param {Octant} octant - The current octant.\n * @return {Object} An object representing the nearest point or null if there is none. The object has a point and a data property.\n */\n\nfunction findNearestPoint(point, maxDistance, skipSelf, octant) {\n\n\tconst points = octant.points;\n\tconst children = octant.children;\n\n\tlet result = null;\n\tlet bestDist = maxDistance;\n\n\tlet i, l;\n\tlet p, distSq;\n\n\tlet sortedChildren;\n\tlet child, childResult;\n\n\tif(children !== null) {\n\n\t\t// Sort the children: smallest distance to the point first, ASC.\n\t\tsortedChildren = children.map((child) => {\n\n\t\t\t// Precompute distances.\n\t\t\treturn {\n\t\t\t\toctant: child,\n\t\t\t\tdistance: child.distanceToCenterSquared(point)\n\t\t\t};\n\n\t\t}).sort((a, b) => a.distance - b.distance);\n\n\t\t// Traverse from closest to furthest.\n\t\tfor(i = 0, l = sortedChildren.length; i < l; ++i) {\n\n\t\t\t// Unpack octant.\n\t\t\tchild = sortedChildren[i].octant;\n\n\t\t\tif(child.contains(point, bestDist)) {\n\n\t\t\t\tchildResult = findNearestPoint(point, bestDist, skipSelf, child);\n\n\t\t\t\tif(childResult !== null) {\n\n\t\t\t\t\tdistSq = childResult.point.distanceToSquared(point);\n\n\t\t\t\t\tif((!skipSelf || distSq > 0.0) && distSq < bestDist) {\n\n\t\t\t\t\t\tbestDist = distSq;\n\t\t\t\t\t\tresult = childResult;\n\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t} else if(points !== null) {\n\n\t\tfor(i = 0, l = points.length; i < l; ++i) {\n\n\t\t\tp = points[i];\n\t\t\tdistSq = point.distanceToSquared(p);\n\n\t\t\tif((!skipSelf || distSq > 0.0) && distSq < bestDist) {\n\n\t\t\t\tbestDist = distSq;\n\n\t\t\t\tresult = {\n\t\t\t\t\tpoint: p.clone(),\n\t\t\t\t\tdata: octant.data[i]\n\t\t\t\t};\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n\treturn result;\n\n}\n\n/**\n * Recursively finds points that are inside the specified radius around a given\n * position.\n *\n * @private\n * @param {Vector3} point - A position.\n * @param {Number} radius - A radius.\n * @param {Boolean} skipSelf - Whether a point that is exactly at the given position should be skipped.\n * @param {Octant} octant - The current octant.\n * @param {Array} result - An array to be filled with objects, each containing a point and a data property.\n */\n\nfunction findPoints(point, radius, skipSelf, octant, result) {\n\n\tconst points = octant.points;\n\tconst children = octant.children;\n\tconst rSq = radius * radius;\n\n\tlet i, l;\n\n\tlet p, distSq;\n\tlet child;\n\n\tif(children !== null) {\n\n\t\tfor(i = 0, l = children.length; i < l; ++i) {\n\n\t\t\tchild = children[i];\n\n\t\t\tif(child.contains(point, radius)) {\n\n\t\t\t\tfindPoints(point, radius, skipSelf, child, result);\n\n\t\t\t}\n\n\t\t}\n\n\t} else if(points !== null) {\n\n\t\tfor(i = 0, l = points.length; i < l; ++i) {\n\n\t\t\tp = points[i];\n\t\t\tdistSq = point.distanceToSquared(p);\n\n\t\t\tif((!skipSelf || distSq > 0.0) && distSq <= rSq) {\n\n\t\t\t\tresult.push({\n\t\t\t\t\tpoint: p.clone(),\n\t\t\t\t\tdata: octant.data[i]\n\t\t\t\t});\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n}\n\n/**\n * An octree that manages points.\n */\n\nexport class PointOctree extends Octree {\n\n\t/**\n\t * Constructs a new point octree.\n\t *\n\t * @param {Vector3} [min] - The lower bounds of the tree.\n\t * @param {Vector3} [max] - The upper bounds of the tree.\n\t * @param {Number} [bias=0.0] - An octant boundary bias.\n\t * @param {Number} [maxPoints=8] - Number of distinct points per octant before it splits up.\n\t * @param {Number} [maxDepth=8] - The maximum tree depth level, starting at 0.\n\t */\n\n\tconstructor(min, max, bias = 0.0, maxPoints = 8, maxDepth = 8) {\n\n\t\tsuper();\n\n\t\t/**\n\t\t * The root octant.\n\t\t *\n\t\t * @type {PointOctant}\n\t\t */\n\n\t\tthis.root = new PointOctant(min, max);\n\n\t\t/**\n\t\t * An octant boundary bias.\n\t\t *\n\t\t * The octree is considered \"loose\" with a bias greater than 0.\n\t\t *\n\t\t * @type {Number}\n\t\t * @private\n\t\t */\n\n\t\tthis.bias = Math.max(0.0, bias);\n\n\t\t/**\n\t\t * Number of points per octant before a split occurs.\n\t\t *\n\t\t * This value works together with the maximum depth as a secondary limiting\n\t\t * factor. Smaller values cause splits to occur earlier which results in a\n\t\t * faster and deeper tree growth.\n\t\t *\n\t\t * @type {Number}\n\t\t * @private\n\t\t */\n\n\t\tthis.maxPoints = Math.max(1, Math.round(maxPoints));\n\n\t\t/**\n\t\t * The maximum tree depth level.\n\t\t *\n\t\t * It's possible to use Infinity, but keep in mind that allowing infinitely\n\t\t * small octants can have a severely negative impact on performance.\n\t\t * Finding a value that works best for a specific scene is advisable.\n\t\t *\n\t\t * @type {Number}\n\t\t * @private\n\t\t */\n\n\t\tthis.maxDepth = Math.max(0, Math.round(maxDepth));\n\n\t\t/**\n\t\t * The amount of points that are currently in this octree.\n\t\t *\n\t\t * @type {Number}\n\t\t */\n\n\t\tthis.pointCount = 0;\n\n\t}\n\n\t/**\n\t * Counts how many points are in the given octant.\n\t *\n\t * @param {Octant} octant - An octant.\n\t * @return {Number} The amount of points.\n\t */\n\n\tcountPoints(octant) {\n\n\t\treturn countPoints(octant);\n\n\t}\n\n\t/**\n\t * Puts a point into the octree.\n\t *\n\t * @param {Vector3} point - A point. If it's already in the octree, the data entry will be updated.\n\t * @param {Object} data - A data object that belongs to the point.\n\t * @return {Boolean} Whether the operation was successful.\n\t */\n\n\tput(point, data) {\n\n\t\treturn put(point, data, this, this.root, 0);\n\n\t}\n\n\t/**\n\t * Removes a point from the tree.\n\t *\n\t * @param {Vector3} point - A point.\n\t * @return {Object} The data entry of the removed point or null if it didn't exist.\n\t */\n\n\tremove(point) {\n\n\t\treturn remove(point, this, this.root, null);\n\n\t}\n\n\t/**\n\t * Retrieves the data of the specified point.\n\t *\n\t * @param {Vector3} point - A position.\n\t * @return {Object} The data entry that is associated with the given point or null if it doesn't exist.\n\t */\n\n\tfetch(point) {\n\n\t\treturn fetch(point, this, this.root);\n\n\t}\n\n\t/**\n\t * Moves an existing point to a new position. Has no effect if the point\n\t * doesn't exist.\n\t *\n\t * @param {Vector3} point - The point.\n\t * @param {Vector3} position - The new position.\n\t * @return {Object} The data entry of the updated point or null if it didn't exist.\n\t */\n\n\tmove(point, position) {\n\n\t\treturn move(point, position, this, this.root, null, 0);\n\n\t}\n\n\t/**\n\t * Finds the closest point to the given one.\n\t *\n\t * @param {Vector3} point - A point.\n\t * @param {Number} [maxDistance=Infinity] - An upper limit for the distance between the points.\n\t * @param {Boolean} [skipSelf=false] - Whether a point that is exactly at the given position should be skipped.\n\t * @return {Object} An object representing the nearest point or null if there is none. The object has a point and a data property.\n\t */\n\n\tfindNearestPoint(point, maxDistance = Infinity, skipSelf = false) {\n\n\t\treturn findNearestPoint(point, maxDistance, skipSelf, this.root);\n\n\t}\n\n\t/**\n\t * Finds points that are in the specified radius around the given position.\n\t *\n\t * @param {Vector3} point - A position.\n\t * @param {Number} radius - A radius.\n\t * @param {Boolean} [skipSelf=false] - Whether a point that is exactly at the given position should be skipped.\n\t * @return {Array} An array of objects, each containing a point and a data property.\n\t */\n\n\tfindPoints(point, radius, skipSelf = false) {\n\n\t\tconst result = [];\n\n\t\tfindPoints(point, radius, skipSelf, this.root, result);\n\n\t\treturn result;\n\n\t}\n\n\t/**\n\t * Finds the points that intersect with the given ray.\n\t *\n\t * @param {Raycaster} raycaster - The raycaster.\n\t * @param {Array} [intersects] - An array to be filled with the intersecting points.\n\t * @return {RayPointIntersection[]} The intersecting points.\n\t */\n\n\traycast(raycaster, intersects = []) {\n\n\t\tconst octants = super.raycast(raycaster);\n\n\t\tif(octants.length > 0) {\n\n\t\t\t// Collect intersecting points.\n\t\t\tthis.testPoints(octants, raycaster, intersects);\n\n\t\t}\n\n\t\treturn intersects;\n\n\t}\n\n\t/**\n\t * Collects points that intersect with the given ray.\n\t *\n\t * @param {Octant[]} octants - An array containing octants that intersect with the ray.\n\t * @param {Raycaster} raycaster - The raycaster.\n\t * @param {Array} intersects - An array to be filled with intersecting points.\n\t */\n\n\ttestPoints(octants, raycaster, intersects) {\n\n\t\tconst threshold = raycaster.params.Points.threshold;\n\t\tconst thresholdSq = threshold * threshold;\n\n\t\tlet intersectPoint;\n\t\tlet distance, distanceToRay;\n\t\tlet rayPointDistanceSq;\n\n\t\tlet i, j, il, jl;\n\t\tlet octant, points, point;\n\n\t\tfor(i = 0, il = octants.length; i < il; ++i) {\n\n\t\t\toctant = octants[i];\n\t\t\tpoints = octant.points;\n\n\t\t\tif(points !== null) {\n\n\t\t\t\tfor(j = 0, jl = points.length; j < jl; ++j) {\n\n\t\t\t\t\tpoint = points[j];\n\t\t\t\t\trayPointDistanceSq = raycaster.ray.distanceSqToPoint(point);\n\n\t\t\t\t\tif(rayPointDistanceSq < thresholdSq) {\n\n\t\t\t\t\t\tintersectPoint = raycaster.ray.closestPointToPoint(point, new Vector3());\n\t\t\t\t\t\tdistance = raycaster.ray.origin.distanceTo(intersectPoint);\n\n\t\t\t\t\t\tif(distance >= raycaster.near && distance <= raycaster.far) {\n\n\t\t\t\t\t\t\tdistanceToRay = Math.sqrt(rayPointDistanceSq);\n\n\t\t\t\t\t\t\tintersects.push(new RayPointIntersection(\n\t\t\t\t\t\t\t\tdistance,\n\t\t\t\t\t\t\t\tdistanceToRay,\n\t\t\t\t\t\t\t\tintersectPoint,\n\t\t\t\t\t\t\t\toctant.data[j]\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/points/PointOctree.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/points/PointOctree.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 137,
+    "__docId__": 136,
     "kind": "variable",
     "name": "THRESHOLD",
     "memberof": "src/points/PointOctree.js",
@@ -2803,7 +2792,7 @@
     "ignore": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 137,
     "kind": "function",
     "name": "countPoints",
     "memberof": "src/points/PointOctree.js",
@@ -2840,7 +2829,7 @@
     "ignore": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 138,
     "kind": "function",
     "name": "put",
     "memberof": "src/points/PointOctree.js",
@@ -2917,7 +2906,7 @@
     "ignore": true
   },
   {
-    "__docId__": 140,
+    "__docId__": 139,
     "kind": "function",
     "name": "remove",
     "memberof": "src/points/PointOctree.js",
@@ -2984,7 +2973,7 @@
     "ignore": true
   },
   {
-    "__docId__": 141,
+    "__docId__": 140,
     "kind": "function",
     "name": "fetch",
     "memberof": "src/points/PointOctree.js",
@@ -3041,7 +3030,7 @@
     "ignore": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 141,
     "kind": "function",
     "name": "move",
     "memberof": "src/points/PointOctree.js",
@@ -3128,7 +3117,7 @@
     "ignore": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 142,
     "kind": "function",
     "name": "findNearestPoint",
     "memberof": "src/points/PointOctree.js",
@@ -3195,7 +3184,7 @@
     "ignore": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 143,
     "kind": "function",
     "name": "findPoints",
     "memberof": "src/points/PointOctree.js",
@@ -3265,7 +3254,7 @@
     "ignore": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 144,
     "kind": "class",
     "name": "PointOctree",
     "memberof": "src/points/PointOctree.js",
@@ -3283,7 +3272,7 @@
     ]
   },
   {
-    "__docId__": 146,
+    "__docId__": 145,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3354,7 +3343,7 @@
     ]
   },
   {
-    "__docId__": 147,
+    "__docId__": 146,
     "kind": "member",
     "name": "root",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3373,7 +3362,7 @@
     }
   },
   {
-    "__docId__": 148,
+    "__docId__": 147,
     "kind": "member",
     "name": "bias",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3392,7 +3381,7 @@
     }
   },
   {
-    "__docId__": 149,
+    "__docId__": 148,
     "kind": "member",
     "name": "maxPoints",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3411,7 +3400,7 @@
     }
   },
   {
-    "__docId__": 150,
+    "__docId__": 149,
     "kind": "member",
     "name": "maxDepth",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3430,7 +3419,7 @@
     }
   },
   {
-    "__docId__": 151,
+    "__docId__": 150,
     "kind": "member",
     "name": "pointCount",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3449,7 +3438,7 @@
     }
   },
   {
-    "__docId__": 152,
+    "__docId__": 151,
     "kind": "method",
     "name": "countPoints",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3482,7 +3471,7 @@
     }
   },
   {
-    "__docId__": 153,
+    "__docId__": 152,
     "kind": "method",
     "name": "put",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3525,7 +3514,7 @@
     }
   },
   {
-    "__docId__": 154,
+    "__docId__": 153,
     "kind": "method",
     "name": "remove",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3558,7 +3547,7 @@
     }
   },
   {
-    "__docId__": 155,
+    "__docId__": 154,
     "kind": "method",
     "name": "fetch",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3591,7 +3580,7 @@
     }
   },
   {
-    "__docId__": 156,
+    "__docId__": 155,
     "kind": "method",
     "name": "move",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3634,7 +3623,7 @@
     }
   },
   {
-    "__docId__": 157,
+    "__docId__": 156,
     "kind": "method",
     "name": "findNearestPoint",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3691,7 +3680,7 @@
     }
   },
   {
-    "__docId__": 158,
+    "__docId__": 157,
     "kind": "method",
     "name": "findPoints",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3746,7 +3735,7 @@
     }
   },
   {
-    "__docId__": 159,
+    "__docId__": 158,
     "kind": "method",
     "name": "raycast",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3789,7 +3778,7 @@
     }
   },
   {
-    "__docId__": 160,
+    "__docId__": 159,
     "kind": "method",
     "name": "testPoints",
     "memberof": "src/points/PointOctree.js~PointOctree",
@@ -3835,18 +3824,18 @@
     "return": null
   },
   {
-    "__docId__": 161,
+    "__docId__": 160,
     "kind": "file",
     "name": "src/points/RayPointIntersection.js",
-    "content": "/**\r\n * A collection of ray-point intersection data.\r\n */\r\n\r\nexport class RayPointIntersection {\r\n\r\n\t/**\r\n\t * Constructs new ray-point intersection data.\r\n\t *\r\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\r\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\r\n\t * @param {Vector3} point - The point.\r\n\t * @param {Object} [object=null] - The point's data.\r\n\t */\r\n\r\n\tconstructor(distance, distanceToRay, point, object = null) {\r\n\r\n\t\t/**\r\n\t\t * The distance from the origin of the ray to the point.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t */\r\n\r\n\t\tthis.distance = distance;\r\n\r\n\t\t/**\r\n\t\t * The shortest distance from the point to the ray.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t */\r\n\r\n\t\tthis.distanceToRay = distanceToRay;\r\n\r\n\t\t/**\r\n\t\t * The point.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t */\r\n\r\n\t\tthis.point = point;\r\n\r\n\t\t/**\r\n\t\t * The point's data.\r\n\t\t *\r\n\t\t * @type {Object}\r\n\t\t */\r\n\r\n\t\tthis.object = object;\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "/**\n * A collection of ray-point intersection data.\n */\n\nexport class RayPointIntersection {\n\n\t/**\n\t * Constructs new ray-point intersection data.\n\t *\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\n\t * @param {Vector3} point - The point.\n\t * @param {Object} [object=null] - The point's data.\n\t */\n\n\tconstructor(distance, distanceToRay, point, object = null) {\n\n\t\t/**\n\t\t * The distance from the origin of the ray to the point.\n\t\t *\n\t\t * @type {Number}\n\t\t */\n\n\t\tthis.distance = distance;\n\n\t\t/**\n\t\t * The shortest distance from the point to the ray.\n\t\t *\n\t\t * @type {Number}\n\t\t */\n\n\t\tthis.distanceToRay = distanceToRay;\n\n\t\t/**\n\t\t * The point.\n\t\t *\n\t\t * @type {Vector3}\n\t\t */\n\n\t\tthis.point = point;\n\n\t\t/**\n\t\t * The point's data.\n\t\t *\n\t\t * @type {Object}\n\t\t */\n\n\t\tthis.object = object;\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/points/RayPointIntersection.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/points/RayPointIntersection.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 162,
+    "__docId__": 161,
     "kind": "class",
     "name": "RayPointIntersection",
     "memberof": "src/points/RayPointIntersection.js",
@@ -3861,7 +3850,7 @@
     "interface": false
   },
   {
-    "__docId__": 163,
+    "__docId__": 162,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/points/RayPointIntersection.js~RayPointIntersection",
@@ -3918,7 +3907,7 @@
     ]
   },
   {
-    "__docId__": 164,
+    "__docId__": 163,
     "kind": "member",
     "name": "distance",
     "memberof": "src/points/RayPointIntersection.js~RayPointIntersection",
@@ -3937,7 +3926,7 @@
     }
   },
   {
-    "__docId__": 165,
+    "__docId__": 164,
     "kind": "member",
     "name": "distanceToRay",
     "memberof": "src/points/RayPointIntersection.js~RayPointIntersection",
@@ -3956,7 +3945,7 @@
     }
   },
   {
-    "__docId__": 166,
+    "__docId__": 165,
     "kind": "member",
     "name": "point",
     "memberof": "src/points/RayPointIntersection.js~RayPointIntersection",
@@ -3975,7 +3964,7 @@
     }
   },
   {
-    "__docId__": 167,
+    "__docId__": 166,
     "kind": "member",
     "name": "object",
     "memberof": "src/points/RayPointIntersection.js~RayPointIntersection",
@@ -3994,29 +3983,29 @@
     }
   },
   {
+    "__docId__": 167,
+    "kind": "file",
+    "name": "src/points/index.js",
+    "content": "/**\n * Point-oriented octree components.\n *\n * @module sparse-octree/points\n */\n\nexport { PointOctant } from \"./PointOctant.js\";\nexport { PointOctree } from \"./PointOctree.js\";\nexport { RayPointIntersection } from \"./RayPointIntersection.js\";\n",
+    "static": true,
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/points/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
     "__docId__": 168,
     "kind": "file",
-    "name": "src/utils/index.js",
-    "content": "/**\r\n * Octree utilities.\r\n *\r\n * @module sparse-octree/utils\r\n */\r\n\r\nexport { OctreeUtils } from \"./OctreeUtils.js\";\r\n",
+    "name": "src/utils/OctreeUtils.js",
+    "content": "import { Box3, Vector3 } from \"three\";\nimport { pattern } from \"../core/Octant.js\";\n\n/**\n * A box.\n *\n * @type {Box3}\n * @private\n * @final\n */\n\nconst b = new Box3();\n\n/**\n * A vector.\n *\n * @type {Vector3}\n * @private\n * @final\n */\n\nconst c = new Vector3();\n\n/**\n * A vector.\n *\n * @type {Vector3}\n * @private\n * @final\n */\n\nconst u = new Vector3();\n\n/**\n * A vector.\n *\n * @type {Vector3}\n * @private\n * @final\n */\n\nconst v = new Vector3();\n\n/**\n * A collection of octree utility functions.\n */\n\nexport class OctreeUtils {\n\n\t/**\n\t * Integrates octants into a parent octant.\n\t *\n\t * @param {Octant} octant - The parent octant.\n\t * @param {Octant[]} octants - A list of potential child octants. Will be used destructively.\n\t */\n\n\tstatic recycleOctants(octant, octants) {\n\n\t\tconst min = octant.min;\n\t\tconst mid = octant.getCenter(u);\n\t\tconst halfDimensions = octant.getDimensions(v).multiplyScalar(0.5);\n\n\t\tconst children = octant.children;\n\t\tconst l = octants.length;\n\n\t\tlet i, j;\n\t\tlet combination, candidate;\n\n\t\tfor(i = 0; i < 8; ++i) {\n\n\t\t\tcombination = pattern[i];\n\n\t\t\tb.min.addVectors(min, c.fromArray(combination).multiply(halfDimensions));\n\t\t\tb.max.addVectors(mid, c.fromArray(combination).multiply(halfDimensions));\n\n\t\t\t// Find an octant that matches the current combination.\n\t\t\tfor(j = 0; j < l; ++j) {\n\n\t\t\t\tcandidate = octants[j];\n\n\t\t\t\tif(candidate !== null && b.min.equals(candidate.min) && b.max.equals(candidate.max)) {\n\n\t\t\t\t\tchildren[i] = candidate;\n\t\t\t\t\toctants[j] = null;\n\n\t\t\t\t\tbreak;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t}\n\n}\n",
     "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/utils/index.js",
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/utils/OctreeUtils.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
     "__docId__": 169,
-    "kind": "file",
-    "name": "src/utils/OctreeUtils.js",
-    "content": "import { Box3, Vector3 } from \"math-ds\";\r\nimport { pattern } from \"../core/Octant.js\";\r\n\r\n/**\r\n * A box.\r\n *\r\n * @type {Box3}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst b = new Box3();\r\n\r\n/**\r\n * A vector.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst c = new Vector3();\r\n\r\n/**\r\n * A vector.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst u = new Vector3();\r\n\r\n/**\r\n * A vector.\r\n *\r\n * @type {Vector3}\r\n * @private\r\n * @final\r\n */\r\n\r\nconst v = new Vector3();\r\n\r\n/**\r\n * A collection of octree utility functions.\r\n */\r\n\r\nexport class OctreeUtils {\r\n\r\n\t/**\r\n\t * Integrates octants into a parent octant.\r\n\t *\r\n\t * @param {Octant} octant - The parent octant.\r\n\t * @param {Octant[]} octants - A list of potential child octants. Will be used destructively.\r\n\t */\r\n\r\n\tstatic recycleOctants(octant, octants) {\r\n\r\n\t\tconst min = octant.min;\r\n\t\tconst mid = octant.getCenter(u);\r\n\t\tconst halfDimensions = octant.getDimensions(v).multiplyScalar(0.5);\r\n\r\n\t\tconst children = octant.children;\r\n\t\tconst l = octants.length;\r\n\r\n\t\tlet i, j;\r\n\t\tlet combination, candidate;\r\n\r\n\t\tfor(i = 0; i < 8; ++i) {\r\n\r\n\t\t\tcombination = pattern[i];\r\n\r\n\t\t\tb.min.addVectors(min, c.fromArray(combination).multiply(halfDimensions));\r\n\t\t\tb.max.addVectors(mid, c.fromArray(combination).multiply(halfDimensions));\r\n\r\n\t\t\t// Find an octant that matches the current combination.\r\n\t\t\tfor(j = 0; j < l; ++j) {\r\n\r\n\t\t\t\tcandidate = octants[j];\r\n\r\n\t\t\t\tif(candidate !== null && b.min.equals(candidate.min) && b.max.equals(candidate.max)) {\r\n\r\n\t\t\t\t\tchildren[i] = candidate;\r\n\t\t\t\t\toctants[j] = null;\r\n\r\n\t\t\t\t\tbreak;\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
-    "static": true,
-    "longname": "D:/Sourcecode/JavaScript/sparse-octree/src/utils/OctreeUtils.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 170,
     "kind": "variable",
     "name": "b",
     "memberof": "src/utils/OctreeUtils.js",
@@ -4045,7 +4034,7 @@
     "ignore": true
   },
   {
-    "__docId__": 171,
+    "__docId__": 170,
     "kind": "variable",
     "name": "c",
     "memberof": "src/utils/OctreeUtils.js",
@@ -4074,7 +4063,7 @@
     "ignore": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 171,
     "kind": "variable",
     "name": "u",
     "memberof": "src/utils/OctreeUtils.js",
@@ -4103,7 +4092,7 @@
     "ignore": true
   },
   {
-    "__docId__": 173,
+    "__docId__": 172,
     "kind": "variable",
     "name": "v",
     "memberof": "src/utils/OctreeUtils.js",
@@ -4132,7 +4121,7 @@
     "ignore": true
   },
   {
-    "__docId__": 174,
+    "__docId__": 173,
     "kind": "class",
     "name": "OctreeUtils",
     "memberof": "src/utils/OctreeUtils.js",
@@ -4147,7 +4136,7 @@
     "interface": false
   },
   {
-    "__docId__": 175,
+    "__docId__": 174,
     "kind": "method",
     "name": "recycleOctants",
     "memberof": "src/utils/OctreeUtils.js~OctreeUtils",
@@ -4183,17 +4172,28 @@
     "return": null
   },
   {
+    "__docId__": 175,
+    "kind": "file",
+    "name": "src/utils/index.js",
+    "content": "/**\n * Octree utilities.\n *\n * @module sparse-octree/utils\n */\n\nexport { OctreeUtils } from \"./OctreeUtils.js\";\n",
+    "static": true,
+    "longname": "/home/hcampos/pix4d/sparse-octree/src/utils/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
     "kind": "index",
-    "content": "# Sparse Octree\r\n\r\n[![Build status](https://travis-ci.org/vanruesc/sparse-octree.svg?branch=master)](https://travis-ci.org/vanruesc/sparse-octree) \r\n[![npm version](https://badge.fury.io/js/sparse-octree.svg)](http://badge.fury.io/js/sparse-octree) \r\n[![Dependencies](https://david-dm.org/vanruesc/sparse-octree.svg?branch=master)](https://david-dm.org/vanruesc/sparse-octree)\r\n\r\nA sparse octree data structure.\r\n\r\n*[Extensive Demo](https://vanruesc.github.io/sparse-octree/public/demo) &there4;\r\n[API Reference](https://vanruesc.github.io/sparse-octree/public/docs)*\r\n\r\n\r\n## Installation\r\n\r\nThis library requires the peer dependencies [iterator-result](https://github.com/vanruesc/iterator-result) and [math-ds](https://github.com/vanruesc/math-ds).\r\n\r\n```sh\r\nnpm install iterator-result math-ds sparse-octree\r\n``` \r\n\r\n\r\n## Usage\r\n\r\n##### Custom Octrees\r\n\r\n```javascript\r\nimport { Octree, CubicOctant } from \"sparse-octree\";\r\n\r\nexport class CubicOctree extends Octree {\r\n\r\n\tconstructor(min, size) {\r\n\r\n\t\tthis.root = new CubicOctant(min, size);\r\n\r\n\t}\r\n\r\n}\r\n```\r\n\r\n##### Points\r\n\r\n```javascript\r\nimport { Vector3 } from \"math-ds\";\r\nimport { PointOctree } from \"sparse-octree\";\r\n\r\nconst min = new Vector3(-1, -1, -1);\r\nconst max = new Vector3(1, 1, 1);\r\n\r\nconst octree = new PointOctree(min, max);\r\nconst myData = {};\r\n\r\noctree.put(new Vector3(0, 0, 0), myData);\r\noctree.fetch(new Vector3(0, 0, 0)); // => myData\r\n```\r\n\r\nA full point octree example can be found [here](https://jsfiddle.net/6gt9fjmq/10/).\r\n\r\n\r\n## Features\r\n\r\n- Base Functionality\r\n\t- Pointer-based structure\r\n  - Handles octant splitting\r\n  - Adheres to a [common octant layout](http://vanruesc.github.io/sparse-octree/public/docs/variable/index.html#static-variable-pattern)\r\n  - Supports raycasting\r\n  - Supports culling\r\n  - Supports cubic octrees\r\n  - Can be extended to manage any data\r\n- Provides a point management implementation\r\n\r\n\r\n## Octree Helper\r\n\r\nThe [octree-helper](https://github.com/vanruesc/octree-helper) module provides\r\nan octree visualisation tool for [three.js](https://threejs.org/).\r\n\r\n\r\n## Contributing\r\n\r\nMaintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.\r\n",
-    "longname": "D:\\Sourcecode\\JavaScript\\sparse-octree\\README.md",
+    "content": "# Sparse Octree\n\n[![Build status](https://travis-ci.org/vanruesc/sparse-octree.svg?branch=master)](https://travis-ci.org/vanruesc/sparse-octree) \n[![npm version](https://badge.fury.io/js/sparse-octree.svg)](http://badge.fury.io/js/sparse-octree) \n[![Peer dependencies](https://david-dm.org/vanruesc/sparse-octree/peer-status.svg)](https://david-dm.org/vanruesc/sparse-octree?type=peer)\n\nA sparse octree data structure.\n\n*[Extensive Demo](https://vanruesc.github.io/sparse-octree/public/demo) &there4;\n[API Reference](https://vanruesc.github.io/sparse-octree/public/docs)*\n\n\n## Usage\n\n##### Custom Octrees\n\n```javascript\nimport { Octree, CubicOctant } from \"sparse-octree\";\n\nexport class CubicOctree extends Octree {\n\n\tconstructor(min, size) {\n\n\t\tthis.root = new CubicOctant(min, size);\n\n\t}\n\n}\n```\n\n##### Points\n\n```javascript\nimport { Vector3 } from \"math-ds\";\nimport { PointOctree } from \"sparse-octree\";\n\nconst min = new Vector3(-1, -1, -1);\nconst max = new Vector3(1, 1, 1);\n\nconst octree = new PointOctree(min, max);\nconst myData = {};\n\noctree.put(new Vector3(0, 0, 0), myData);\noctree.fetch(new Vector3(0, 0, 0)); // => myData\n```\n\nA full point octree example can be found [here](https://jsfiddle.net/6gt9fjmq/10/).\n\n\n## Features\n\n- Base Functionality\n\t- Pointer-based structure\n  - Handles octant splitting\n  - Adheres to a [common octant layout](http://vanruesc.github.io/sparse-octree/public/docs/variable/index.html#static-variable-pattern)\n  - Supports raycasting\n  - Supports culling\n  - Supports cubic octrees\n  - Can be extended to manage any data\n- Provides a point management implementation\n\n\n## Octree Helper\n\nThe [octree-helper](https://github.com/vanruesc/octree-helper) module provides\nan octree visualisation tool for [three.js](https://threejs.org/).\n\n\n## Contributing\n\nMaintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.\n",
+    "longname": "/home/hcampos/pix4d/sparse-octree/README.md",
     "name": "./README.md",
     "static": true,
     "access": "public"
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n\t\"name\": \"sparse-octree\",\r\n\t\"version\": \"5.0.1\",\r\n\t\"description\": \"A sparse octree data structure.\",\r\n\t\"homepage\": \"https://github.com/vanruesc/sparse-octree\",\r\n\t\"main\": \"build/sparse-octree.js\",\r\n\t\"module\": \"src/index.js\",\r\n\t\"sideEffects\": false,\r\n\t\"license\": \"Zlib\",\r\n\r\n\t\"keywords\": [\r\n\t\t\"partition\",\r\n\t\t\"hierarchy\",\r\n\t\t\"subdivision\",\r\n\t\t\"raycasting\",\r\n\t\t\"3d\",\r\n\t\t\"spatial\",\r\n\t\t\"voxel\",\r\n\t\t\"points\",\r\n\t\t\"frustum\",\r\n\t\t\"culling\"\r\n\t],\r\n\r\n\t\"author\": {\r\n\t\t\"name\": \"Raoul van Rüschen\",\r\n\t\t\"email\": \"vanruesc@outlook.de\"\r\n\t},\r\n\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"https://github.com/vanruesc/sparse-octree.git\"\r\n\t},\r\n\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/vanruesc/sparse-octree/issues\"\r\n\t},\r\n\r\n\t\"files\": [\r\n\t\t\"src\",\r\n\t\t\"build\"\r\n\t],\r\n\r\n\t\"scripts\": {\r\n\t\t\"lint\": \"npm run lint:lib && npm run lint:demo && npm run lint:test\",\r\n\t\t\"lint:config\": \"eslint *.js\",\r\n\t\t\"lint:lib\": \"eslint src\",\r\n\t\t\"lint:demo\": \"eslint demo/src\",\r\n\t\t\"lint:test\": \"eslint test\",\r\n\t\t\"build\": \"rollup -c\",\r\n\t\t\"build:production\": \"cross-env NODE_ENV=production rollup -c\",\r\n\t\t\"doc\": \"esdoc\",\r\n\t\t\"deploy\": \"cpx demo/assets/** public/demo\",\r\n\t\t\"test\": \"ava\",\r\n\t\t\"prepack\": \"npm run lint && npm run build:production\"\r\n\t},\r\n\r\n\t\"engines\": {\r\n\t\t\"node\": \">=4.0.0\",\r\n\t\t\"npm\": \">=4.0.0\"\r\n\t},\r\n\r\n\t\"eslintConfig\": {\r\n\t\t\"extends\": \"delta\"\r\n\t},\r\n\r\n\t\"peerDependencies\": {\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"1.x.x\"\r\n\t},\r\n\r\n\t\"devDependencies\": {\r\n\t\t\"ava\": \"0.x.x\",\r\n\t\t\"babel-core\": \"6.x.x\",\r\n\t\t\"babel-plugin-external-helpers\": \"6.x.x\",\r\n\t\t\"babel-preset-env\": \"1.x.x\",\r\n\t\t\"cpx\": \"1.x.x\",\r\n\t\t\"cross-env\": \"5.x.x\",\r\n\t\t\"delta-controls\": \"2.x.x\",\r\n\t\t\"esdoc\": \"1.x.x\",\r\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\r\n\t\t\"eslint\": \"5.x.x\",\r\n\t\t\"eslint-config-delta\": \"0.x.x\",\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"1.x.x\",\r\n\t\t\"octree-helper\": \"0.x.x\",\r\n\t\t\"rollup\": \"0.x.x\",\r\n\t\t\"rollup-plugin-babel\": \"3.x.x\",\r\n\t\t\"rollup-plugin-babel-minify\": \"5.x.x\",\r\n\t\t\"rollup-plugin-node-resolve\": \"3.x.x\",\r\n\t\t\"rollup-plugin-string\": \"2.x.x\",\r\n\t\t\"synthetic-event\": \"0.x.x\",\r\n\t\t\"three\": \"0.94.x\",\r\n\t\t\"three-demo\": \"2.x.x\"\r\n\t}\r\n}\r\n",
-    "longname": "D:\\Sourcecode\\JavaScript\\sparse-octree\\package.json",
+    "content": "{\n\t\"name\": \"sparse-octree\",\n\t\"version\": \"5.0.1\",\n\t\"description\": \"A sparse octree data structure.\",\n\t\"homepage\": \"https://github.com/vanruesc/sparse-octree\",\n\t\"main\": \"build/sparse-octree.js\",\n\t\"typings\": \"src/typings.d.ts\",\n\t\"sideEffects\": false,\n\t\"license\": \"Zlib\",\n\n\t\"keywords\": [\n\t\t\"partition\",\n\t\t\"hierarchy\",\n\t\t\"subdivision\",\n\t\t\"raycasting\",\n\t\t\"3d\",\n\t\t\"spatial\",\n\t\t\"voxel\",\n\t\t\"points\",\n\t\t\"frustum\",\n\t\t\"culling\"\n\t],\n\n\t\"author\": {\n\t\t\"name\": \"Raoul van Rüschen\",\n\t\t\"email\": \"vanruesc@outlook.de\"\n\t},\n\n\t\"repository\": {\n\t\t\"type\": \"git\",\n\t\t\"url\": \"https://github.com/vanruesc/sparse-octree.git\"\n\t},\n\n\t\"bugs\": {\n\t\t\"url\": \"https://github.com/vanruesc/sparse-octree/issues\"\n\t},\n\n\t\"files\": [\n\t\t\"src\",\n\t\t\"build\"\n\t],\n\n\t\"scripts\": {\n\t\t\"lint\": \"yarn run lint:lib && yarn run lint:demo && yarn run lint:test\",\n\t\t\"lint:config\": \"eslint *.js\",\n\t\t\"lint:lib\": \"eslint src\",\n\t\t\"lint:demo\": \"eslint demo/src\",\n\t\t\"lint:test\": \"eslint test\",\n\t\t\"build\": \"rollup -c\",\n\t\t\"build:production\": \"cross-env NODE_ENV=production rollup -c\",\n\t\t\"doc\": \"esdoc\",\n\t\t\"deploy\": \"cpx demo/assets/** public/demo\",\n\t\t\"test\": \"ava\",\n\t\t\"prepack\": \"yarn run lint && yarn run build:production\"\n\t},\n\n\t\"engines\": {\n\t\t\"node\": \">=4.0.0\",\n\t\t\"npm\": \">=4.0.0\"\n\t},\n\n\t\"ava\": {\n\t\t\"failFast\": true,\n\t\t\"files\": [\"test/**/*.js\"]\n\t},\n\n\t\"eslintConfig\": {\n\t\t\"extends\": \"delta\"\n\t},\n\n\t\"dependencies\": {\n\t\t\"iterator-result\": \"0.x.x\"\n\t},\n\n\t\"devDependencies\": {\n\t\t\"ava\": \"0.x.x\",\n\t\t\"babel-core\": \"6.x.x\",\n\t\t\"babel-plugin-external-helpers\": \"6.x.x\",\n\t\t\"babel-preset-env\": \"1.x.x\",\n\t\t\"cpx\": \"1.x.x\",\n\t\t\"cross-env\": \"5.x.x\",\n\t\t\"delta-controls\": \"2.x.x\",\n\t\t\"esdoc\": \"1.x.x\",\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\n\t\t\"eslint\": \"5.x.x\",\n\t\t\"eslint-config-delta\": \"0.x.x\",\n\t\t\"iterator-result\": \"0.x.x\",\n\t\t\"octree-helper\": \"0.x.x\",\n\t\t\"rollup\": \"0.x.x\",\n\t\t\"rollup-plugin-babel\": \"3.x.x\",\n\t\t\"rollup-plugin-babel-minify\": \"5.x.x\",\n\t\t\"rollup-plugin-node-resolve\": \"3.x.x\",\n\t\t\"rollup-plugin-string\": \"2.x.x\",\n\t\t\"synthetic-event\": \"0.x.x\",\n\t\t\"three\": \"0.94.x\",\n\t\t\"three-demo\": \"2.x.x\"\n\t}\n}\n",
+    "longname": "/home/hcampos/pix4d/sparse-octree/package.json",
     "name": "package.json",
     "static": true,
     "access": "public"

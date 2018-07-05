@@ -1,4 +1,4 @@
-import { Box3 } from "math-ds";
+import { Box3 } from "three";
 import { Octant } from "./Octant.js";
 import { OctantIterator } from "./OctantIterator.js";
 import { OctreeRaycaster } from "./OctreeRaycaster.js";

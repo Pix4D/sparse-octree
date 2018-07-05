@@ -1,4 +1,4 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 import { Octree } from "../core/Octree.js";
 import { PointOctant } from "./PointOctant.js";
 import { RayPointIntersection } from "./RayPointIntersection.js";

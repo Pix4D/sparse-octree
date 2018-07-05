@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 119,
+  "end": 112,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 119,
+    "end": 112,
     "loc": {
       "start": {
         "line": 1,
@@ -30,8 +30,8 @@
     "body": [
       {
         "type": "ExportNamedDeclaration",
-        "start": 70,
-        "end": 117,
+        "start": 64,
+        "end": 111,
         "loc": {
           "start": {
             "line": 7,
@@ -46,8 +46,8 @@
         "specifiers": [
           {
             "type": "ExportSpecifier",
-            "start": 79,
-            "end": 90,
+            "start": 73,
+            "end": 84,
             "loc": {
               "start": {
                 "line": 7,
@@ -60,8 +60,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 79,
-              "end": 90,
+              "start": 73,
+              "end": 84,
               "loc": {
                 "start": {
                   "line": 7,
@@ -78,8 +78,8 @@
             },
             "exported": {
               "type": "Identifier",
-              "start": 79,
-              "end": 90,
+              "start": 73,
+              "end": 84,
               "loc": {
                 "start": {
                   "line": 7,
@@ -98,8 +98,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 98,
-          "end": 116,
+          "start": 92,
+          "end": 110,
           "loc": {
             "start": {
               "line": 7,
@@ -119,9 +119,9 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Octree utilities.\r\n *\r\n * @module sparse-octree/utils\r\n ",
+            "value": "*\n * Octree utilities.\n *\n * @module sparse-octree/utils\n ",
             "start": 0,
-            "end": 66,
+            "end": 62,
             "loc": {
               "start": {
                 "line": 1,
@@ -141,9 +141,9 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Octree utilities.\r\n *\r\n * @module sparse-octree/utils\r\n ",
+      "value": "*\n * Octree utilities.\n *\n * @module sparse-octree/utils\n ",
       "start": 0,
-      "end": 66,
+      "end": 62,
       "loc": {
         "start": {
           "line": 1,
@@ -159,9 +159,9 @@
   "tokens": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Octree utilities.\r\n *\r\n * @module sparse-octree/utils\r\n ",
+      "value": "*\n * Octree utilities.\n *\n * @module sparse-octree/utils\n ",
       "start": 0,
-      "end": 66,
+      "end": 62,
       "loc": {
         "start": {
           "line": 1,
@@ -188,8 +188,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 70,
-      "end": 76,
+      "start": 64,
+      "end": 70,
       "loc": {
         "start": {
           "line": 7,
@@ -213,8 +213,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 77,
-      "end": 78,
+      "start": 71,
+      "end": 72,
       "loc": {
         "start": {
           "line": 7,
@@ -239,8 +239,8 @@
         "binop": null
       },
       "value": "OctreeUtils",
-      "start": 79,
-      "end": 90,
+      "start": 73,
+      "end": 84,
       "loc": {
         "start": {
           "line": 7,
@@ -264,8 +264,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 91,
-      "end": 92,
+      "start": 85,
+      "end": 86,
       "loc": {
         "start": {
           "line": 7,
@@ -290,8 +290,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 93,
-      "end": 97,
+      "start": 87,
+      "end": 91,
       "loc": {
         "start": {
           "line": 7,
@@ -317,8 +317,8 @@
         "updateContext": null
       },
       "value": "./OctreeUtils.js",
-      "start": 98,
-      "end": 116,
+      "start": 92,
+      "end": 110,
       "loc": {
         "start": {
           "line": 7,
@@ -343,8 +343,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 116,
-      "end": 117,
+      "start": 110,
+      "end": 111,
       "loc": {
         "start": {
           "line": 7,
@@ -369,8 +369,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 119,
-      "end": 119,
+      "start": 112,
+      "end": 112,
       "loc": {
         "start": {
           "line": 8,

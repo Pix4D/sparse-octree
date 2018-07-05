@@ -1,4 +1,4 @@
-import { Box3, Vector3 } from "math-ds";
+import { Box3, Vector3 } from "three";
 import { pattern } from "../core/Octant.js";
 
 /**

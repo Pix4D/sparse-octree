@@ -10,15 +10,6 @@ A sparse octree data structure.
 [API Reference](https://vanruesc.github.io/sparse-octree/public/docs)*
 
 
-## Installation
-
-This library requires the peer dependencies [iterator-result](https://github.com/vanruesc/iterator-result) and [math-ds](https://github.com/vanruesc/math-ds).
-
-```sh
-npm install iterator-result math-ds sparse-octree
-``` 
-
-
 ## Usage
 
 ##### Custom Octrees

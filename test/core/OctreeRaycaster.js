@@ -1,6 +1,6 @@
 import test from "ava";
 import { Raycaster } from "three";
-import { Box3, Vector3 } from "math-ds";
+import { Box3, Vector3 } from "three";
 import { Octree } from "../../build/sparse-octree.js";
 
 const box = new Box3(

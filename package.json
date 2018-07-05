@@ -4,7 +4,7 @@
 	"description": "A sparse octree data structure.",
 	"homepage": "https://github.com/vanruesc/sparse-octree",
 	"main": "build/sparse-octree.js",
-	"module": "src/index.js",
+	"typings": "src/typings.d.ts",
 	"sideEffects": false,
 	"license": "Zlib",
 
@@ -41,7 +41,7 @@
 	],
 
 	"scripts": {
-		"lint": "npm run lint:lib && npm run lint:demo && npm run lint:test",
+		"lint": "yarn run lint:lib && yarn run lint:demo && yarn run lint:test",
 		"lint:config": "eslint *.js",
 		"lint:lib": "eslint src",
 		"lint:demo": "eslint demo/src",
@@ -51,7 +51,7 @@
 		"doc": "esdoc",
 		"deploy": "cpx demo/assets/** public/demo",
 		"test": "ava",
-		"prepack": "npm run lint && npm run build:production"
+		"prepack": "yarn run lint && yarn run build:production"
 	},
 
 	"engines": {
@@ -68,9 +68,8 @@
 		"extends": "delta"
 	},
 
-	"peerDependencies": {
-		"iterator-result": "0.x.x",
-		"math-ds": "1.x.x"
+	"dependencies": {
+		"iterator-result": "0.x.x"
 	},
 
 	"devDependencies": {
@@ -86,7 +85,6 @@
 		"eslint": "5.x.x",
 		"eslint-config-delta": "0.x.x",
 		"iterator-result": "0.x.x",
-		"math-ds": "1.x.x",
 		"octree-helper": "0.x.x",
 		"rollup": "0.x.x",
 		"rollup-plugin-babel": "3.x.x",

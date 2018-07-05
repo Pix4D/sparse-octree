@@ -1,5 +1,5 @@
 import test from "ava";
-import { Box3, Vector3 } from "math-ds";
+import { Box3, Vector3 } from "three";
 import { PointOctree } from "../../build/sparse-octree.js";
 
 const box = new Box3(

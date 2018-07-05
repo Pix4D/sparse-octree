@@ -13,7 +13,7 @@ const banner = `/**
 
 const lib = {
 
-	input: pkg.module,
+	input: "src/index.js",
 	output: {
 		file: "build/" + pkg.name + ".js",
 		format: "umd",

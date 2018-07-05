@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 954,
+  "end": 902,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 954,
+    "end": 902,
     "loc": {
       "start": {
         "line": 1,
@@ -30,8 +30,8 @@
     "body": [
       {
         "type": "ExportNamedDeclaration",
-        "start": 61,
-        "end": 952,
+        "start": 57,
+        "end": 901,
         "loc": {
           "start": {
             "line": 5,
@@ -46,8 +46,8 @@
         "source": null,
         "declaration": {
           "type": "ClassDeclaration",
-          "start": 68,
-          "end": 952,
+          "start": 64,
+          "end": 901,
           "loc": {
             "start": {
               "line": 5,
@@ -60,8 +60,8 @@
           },
           "id": {
             "type": "Identifier",
-            "start": 74,
-            "end": 94,
+            "start": 70,
+            "end": 90,
             "loc": {
               "start": {
                 "line": 5,
@@ -79,8 +79,8 @@
           "superClass": null,
           "body": {
             "type": "ClassBody",
-            "start": 95,
-            "end": 952,
+            "start": 91,
+            "end": 901,
             "loc": {
               "start": {
                 "line": 5,
@@ -94,8 +94,8 @@
             "body": [
               {
                 "type": "ClassMethod",
-                "start": 428,
-                "end": 947,
+                "start": 413,
+                "end": 898,
                 "loc": {
                   "start": {
                     "line": 16,
@@ -110,8 +110,8 @@
                 "computed": false,
                 "key": {
                   "type": "Identifier",
-                  "start": 428,
-                  "end": 439,
+                  "start": 413,
+                  "end": 424,
                   "loc": {
                     "start": {
                       "line": 16,
@@ -134,8 +134,8 @@
                 "params": [
                   {
                     "type": "Identifier",
-                    "start": 440,
-                    "end": 448,
+                    "start": 425,
+                    "end": 433,
                     "loc": {
                       "start": {
                         "line": 16,
@@ -151,8 +151,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 450,
-                    "end": 463,
+                    "start": 435,
+                    "end": 448,
                     "loc": {
                       "start": {
                         "line": 16,
@@ -168,8 +168,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 465,
-                    "end": 470,
+                    "start": 450,
+                    "end": 455,
                     "loc": {
                       "start": {
                         "line": 16,
@@ -185,8 +185,8 @@
                   },
                   {
                     "type": "AssignmentPattern",
-                    "start": 472,
-                    "end": 485,
+                    "start": 457,
+                    "end": 470,
                     "loc": {
                       "start": {
                         "line": 16,
@@ -199,8 +199,8 @@
                     },
                     "left": {
                       "type": "Identifier",
-                      "start": 472,
-                      "end": 478,
+                      "start": 457,
+                      "end": 463,
                       "loc": {
                         "start": {
                           "line": 16,
@@ -216,8 +216,8 @@
                     },
                     "right": {
                       "type": "NullLiteral",
-                      "start": 481,
-                      "end": 485,
+                      "start": 466,
+                      "end": 470,
                       "loc": {
                         "start": {
                           "line": 16,
@@ -233,8 +233,8 @@
                 ],
                 "body": {
                   "type": "BlockStatement",
-                  "start": 487,
-                  "end": 947,
+                  "start": 472,
+                  "end": 898,
                   "loc": {
                     "start": {
                       "line": 16,
@@ -248,8 +248,8 @@
                   "body": [
                     {
                       "type": "ExpressionStatement",
-                      "start": 597,
-                      "end": 622,
+                      "start": 574,
+                      "end": 599,
                       "loc": {
                         "start": {
                           "line": 24,
@@ -262,8 +262,8 @@
                       },
                       "expression": {
                         "type": "AssignmentExpression",
-                        "start": 597,
-                        "end": 621,
+                        "start": 574,
+                        "end": 598,
                         "loc": {
                           "start": {
                             "line": 24,
@@ -277,8 +277,8 @@
                         "operator": "=",
                         "left": {
                           "type": "MemberExpression",
-                          "start": 597,
-                          "end": 610,
+                          "start": 574,
+                          "end": 587,
                           "loc": {
                             "start": {
                               "line": 24,
@@ -291,8 +291,8 @@
                           },
                           "object": {
                             "type": "ThisExpression",
-                            "start": 597,
-                            "end": 601,
+                            "start": 574,
+                            "end": 578,
                             "loc": {
                               "start": {
                                 "line": 24,
@@ -307,8 +307,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 602,
-                            "end": 610,
+                            "start": 579,
+                            "end": 587,
                             "loc": {
                               "start": {
                                 "line": 24,
@@ -327,8 +327,8 @@
                         },
                         "right": {
                           "type": "Identifier",
-                          "start": 613,
-                          "end": 621,
+                          "start": 590,
+                          "end": 598,
                           "loc": {
                             "start": {
                               "line": 24,
@@ -347,9 +347,9 @@
                       "leadingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The distance from the origin of the ray to the point.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-                          "start": 494,
-                          "end": 591,
+                          "value": "*\n\t\t * The distance from the origin of the ray to the point.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+                          "start": 477,
+                          "end": 570,
                           "loc": {
                             "start": {
                               "line": 18,
@@ -365,9 +365,9 @@
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The shortest distance from the point to the ray.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-                          "start": 628,
-                          "end": 720,
+                          "value": "*\n\t\t * The shortest distance from the point to the ray.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+                          "start": 603,
+                          "end": 691,
                           "loc": {
                             "start": {
                               "line": 26,
@@ -383,8 +383,8 @@
                     },
                     {
                       "type": "ExpressionStatement",
-                      "start": 726,
-                      "end": 761,
+                      "start": 695,
+                      "end": 730,
                       "loc": {
                         "start": {
                           "line": 32,
@@ -397,8 +397,8 @@
                       },
                       "expression": {
                         "type": "AssignmentExpression",
-                        "start": 726,
-                        "end": 760,
+                        "start": 695,
+                        "end": 729,
                         "loc": {
                           "start": {
                             "line": 32,
@@ -412,8 +412,8 @@
                         "operator": "=",
                         "left": {
                           "type": "MemberExpression",
-                          "start": 726,
-                          "end": 744,
+                          "start": 695,
+                          "end": 713,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -426,8 +426,8 @@
                           },
                           "object": {
                             "type": "ThisExpression",
-                            "start": 726,
-                            "end": 730,
+                            "start": 695,
+                            "end": 699,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -442,8 +442,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 731,
-                            "end": 744,
+                            "start": 700,
+                            "end": 713,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -462,8 +462,8 @@
                         },
                         "right": {
                           "type": "Identifier",
-                          "start": 747,
-                          "end": 760,
+                          "start": 716,
+                          "end": 729,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -482,9 +482,9 @@
                       "leadingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The shortest distance from the point to the ray.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-                          "start": 628,
-                          "end": 720,
+                          "value": "*\n\t\t * The shortest distance from the point to the ray.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+                          "start": 603,
+                          "end": 691,
                           "loc": {
                             "start": {
                               "line": 26,
@@ -500,9 +500,9 @@
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The point.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t ",
-                          "start": 767,
-                          "end": 822,
+                          "value": "*\n\t\t * The point.\n\t\t *\n\t\t * @type {Vector3}\n\t\t ",
+                          "start": 734,
+                          "end": 785,
                           "loc": {
                             "start": {
                               "line": 34,
@@ -518,8 +518,8 @@
                     },
                     {
                       "type": "ExpressionStatement",
-                      "start": 828,
-                      "end": 847,
+                      "start": 789,
+                      "end": 808,
                       "loc": {
                         "start": {
                           "line": 40,
@@ -532,8 +532,8 @@
                       },
                       "expression": {
                         "type": "AssignmentExpression",
-                        "start": 828,
-                        "end": 846,
+                        "start": 789,
+                        "end": 807,
                         "loc": {
                           "start": {
                             "line": 40,
@@ -547,8 +547,8 @@
                         "operator": "=",
                         "left": {
                           "type": "MemberExpression",
-                          "start": 828,
-                          "end": 838,
+                          "start": 789,
+                          "end": 799,
                           "loc": {
                             "start": {
                               "line": 40,
@@ -561,8 +561,8 @@
                           },
                           "object": {
                             "type": "ThisExpression",
-                            "start": 828,
-                            "end": 832,
+                            "start": 789,
+                            "end": 793,
                             "loc": {
                               "start": {
                                 "line": 40,
@@ -577,8 +577,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 833,
-                            "end": 838,
+                            "start": 794,
+                            "end": 799,
                             "loc": {
                               "start": {
                                 "line": 40,
@@ -597,8 +597,8 @@
                         },
                         "right": {
                           "type": "Identifier",
-                          "start": 841,
-                          "end": 846,
+                          "start": 802,
+                          "end": 807,
                           "loc": {
                             "start": {
                               "line": 40,
@@ -617,9 +617,9 @@
                       "leadingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The point.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t ",
-                          "start": 767,
-                          "end": 822,
+                          "value": "*\n\t\t * The point.\n\t\t *\n\t\t * @type {Vector3}\n\t\t ",
+                          "start": 734,
+                          "end": 785,
                           "loc": {
                             "start": {
                               "line": 34,
@@ -635,9 +635,9 @@
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The point's data.\r\n\t\t *\r\n\t\t * @type {Object}\r\n\t\t ",
-                          "start": 853,
-                          "end": 914,
+                          "value": "*\n\t\t * The point's data.\n\t\t *\n\t\t * @type {Object}\n\t\t ",
+                          "start": 812,
+                          "end": 869,
                           "loc": {
                             "start": {
                               "line": 42,
@@ -653,8 +653,8 @@
                     },
                     {
                       "type": "ExpressionStatement",
-                      "start": 920,
-                      "end": 941,
+                      "start": 873,
+                      "end": 894,
                       "loc": {
                         "start": {
                           "line": 48,
@@ -667,8 +667,8 @@
                       },
                       "expression": {
                         "type": "AssignmentExpression",
-                        "start": 920,
-                        "end": 940,
+                        "start": 873,
+                        "end": 893,
                         "loc": {
                           "start": {
                             "line": 48,
@@ -682,8 +682,8 @@
                         "operator": "=",
                         "left": {
                           "type": "MemberExpression",
-                          "start": 920,
-                          "end": 931,
+                          "start": 873,
+                          "end": 884,
                           "loc": {
                             "start": {
                               "line": 48,
@@ -696,8 +696,8 @@
                           },
                           "object": {
                             "type": "ThisExpression",
-                            "start": 920,
-                            "end": 924,
+                            "start": 873,
+                            "end": 877,
                             "loc": {
                               "start": {
                                 "line": 48,
@@ -712,8 +712,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 925,
-                            "end": 931,
+                            "start": 878,
+                            "end": 884,
                             "loc": {
                               "start": {
                                 "line": 48,
@@ -732,8 +732,8 @@
                         },
                         "right": {
                           "type": "Identifier",
-                          "start": 934,
-                          "end": 940,
+                          "start": 887,
+                          "end": 893,
                           "loc": {
                             "start": {
                               "line": 48,
@@ -752,9 +752,9 @@
                       "leadingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n\t\t * The point's data.\r\n\t\t *\r\n\t\t * @type {Object}\r\n\t\t ",
-                          "start": 853,
-                          "end": 914,
+                          "value": "*\n\t\t * The point's data.\n\t\t *\n\t\t * @type {Object}\n\t\t ",
+                          "start": 812,
+                          "end": 869,
                           "loc": {
                             "start": {
                               "line": 42,
@@ -774,9 +774,9 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n\t * Constructs new ray-point intersection data.\r\n\t *\r\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\r\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\r\n\t * @param {Vector3} point - The point.\r\n\t * @param {Object} [object=null] - The point's data.\r\n\t ",
-                    "start": 101,
-                    "end": 423,
+                    "value": "*\n\t * Constructs new ray-point intersection data.\n\t *\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\n\t * @param {Vector3} point - The point.\n\t * @param {Object} [object=null] - The point's data.\n\t ",
+                    "start": 95,
+                    "end": 410,
                     "loc": {
                       "start": {
                         "line": 7,
@@ -795,9 +795,9 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * A collection of ray-point intersection data.\r\n ",
+              "value": "*\n * A collection of ray-point intersection data.\n ",
               "start": 0,
-              "end": 57,
+              "end": 55,
               "loc": {
                 "start": {
                   "line": 1,
@@ -815,9 +815,9 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * A collection of ray-point intersection data.\r\n ",
+            "value": "*\n * A collection of ray-point intersection data.\n ",
             "start": 0,
-            "end": 57,
+            "end": 55,
             "loc": {
               "start": {
                 "line": 1,
@@ -837,9 +837,9 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * A collection of ray-point intersection data.\r\n ",
+      "value": "*\n * A collection of ray-point intersection data.\n ",
       "start": 0,
-      "end": 57,
+      "end": 55,
       "loc": {
         "start": {
           "line": 1,
@@ -853,9 +853,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t * Constructs new ray-point intersection data.\r\n\t *\r\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\r\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\r\n\t * @param {Vector3} point - The point.\r\n\t * @param {Object} [object=null] - The point's data.\r\n\t ",
-      "start": 101,
-      "end": 423,
+      "value": "*\n\t * Constructs new ray-point intersection data.\n\t *\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\n\t * @param {Vector3} point - The point.\n\t * @param {Object} [object=null] - The point's data.\n\t ",
+      "start": 95,
+      "end": 410,
       "loc": {
         "start": {
           "line": 7,
@@ -869,9 +869,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The distance from the origin of the ray to the point.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-      "start": 494,
-      "end": 591,
+      "value": "*\n\t\t * The distance from the origin of the ray to the point.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+      "start": 477,
+      "end": 570,
       "loc": {
         "start": {
           "line": 18,
@@ -885,9 +885,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The shortest distance from the point to the ray.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-      "start": 628,
-      "end": 720,
+      "value": "*\n\t\t * The shortest distance from the point to the ray.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+      "start": 603,
+      "end": 691,
       "loc": {
         "start": {
           "line": 26,
@@ -901,9 +901,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The point.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t ",
-      "start": 767,
-      "end": 822,
+      "value": "*\n\t\t * The point.\n\t\t *\n\t\t * @type {Vector3}\n\t\t ",
+      "start": 734,
+      "end": 785,
       "loc": {
         "start": {
           "line": 34,
@@ -917,9 +917,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The point's data.\r\n\t\t *\r\n\t\t * @type {Object}\r\n\t\t ",
-      "start": 853,
-      "end": 914,
+      "value": "*\n\t\t * The point's data.\n\t\t *\n\t\t * @type {Object}\n\t\t ",
+      "start": 812,
+      "end": 869,
       "loc": {
         "start": {
           "line": 42,
@@ -935,9 +935,9 @@
   "tokens": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n * A collection of ray-point intersection data.\r\n ",
+      "value": "*\n * A collection of ray-point intersection data.\n ",
       "start": 0,
-      "end": 57,
+      "end": 55,
       "loc": {
         "start": {
           "line": 1,
@@ -964,8 +964,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 61,
-      "end": 67,
+      "start": 57,
+      "end": 63,
       "loc": {
         "start": {
           "line": 5,
@@ -992,8 +992,8 @@
         "updateContext": null
       },
       "value": "class",
-      "start": 68,
-      "end": 73,
+      "start": 64,
+      "end": 69,
       "loc": {
         "start": {
           "line": 5,
@@ -1018,8 +1018,8 @@
         "binop": null
       },
       "value": "RayPointIntersection",
-      "start": 74,
-      "end": 94,
+      "start": 70,
+      "end": 90,
       "loc": {
         "start": {
           "line": 5,
@@ -1043,8 +1043,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 95,
-      "end": 96,
+      "start": 91,
+      "end": 92,
       "loc": {
         "start": {
           "line": 5,
@@ -1058,9 +1058,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t * Constructs new ray-point intersection data.\r\n\t *\r\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\r\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\r\n\t * @param {Vector3} point - The point.\r\n\t * @param {Object} [object=null] - The point's data.\r\n\t ",
-      "start": 101,
-      "end": 423,
+      "value": "*\n\t * Constructs new ray-point intersection data.\n\t *\n\t * @param {Number} distance - The distance from the origin of the ray to the point.\n\t * @param {Number} distanceToRay - The distance from the point to the ray.\n\t * @param {Vector3} point - The point.\n\t * @param {Object} [object=null] - The point's data.\n\t ",
+      "start": 95,
+      "end": 410,
       "loc": {
         "start": {
           "line": 7,
@@ -1085,8 +1085,8 @@
         "binop": null
       },
       "value": "constructor",
-      "start": 428,
-      "end": 439,
+      "start": 413,
+      "end": 424,
       "loc": {
         "start": {
           "line": 16,
@@ -1110,8 +1110,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 439,
-      "end": 440,
+      "start": 424,
+      "end": 425,
       "loc": {
         "start": {
           "line": 16,
@@ -1136,8 +1136,8 @@
         "binop": null
       },
       "value": "distance",
-      "start": 440,
-      "end": 448,
+      "start": 425,
+      "end": 433,
       "loc": {
         "start": {
           "line": 16,
@@ -1162,8 +1162,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 448,
-      "end": 449,
+      "start": 433,
+      "end": 434,
       "loc": {
         "start": {
           "line": 16,
@@ -1188,8 +1188,8 @@
         "binop": null
       },
       "value": "distanceToRay",
-      "start": 450,
-      "end": 463,
+      "start": 435,
+      "end": 448,
       "loc": {
         "start": {
           "line": 16,
@@ -1214,8 +1214,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 463,
-      "end": 464,
+      "start": 448,
+      "end": 449,
       "loc": {
         "start": {
           "line": 16,
@@ -1240,8 +1240,8 @@
         "binop": null
       },
       "value": "point",
-      "start": 465,
-      "end": 470,
+      "start": 450,
+      "end": 455,
       "loc": {
         "start": {
           "line": 16,
@@ -1266,8 +1266,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 470,
-      "end": 471,
+      "start": 455,
+      "end": 456,
       "loc": {
         "start": {
           "line": 16,
@@ -1292,8 +1292,8 @@
         "binop": null
       },
       "value": "object",
-      "start": 472,
-      "end": 478,
+      "start": 457,
+      "end": 463,
       "loc": {
         "start": {
           "line": 16,
@@ -1319,8 +1319,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 479,
-      "end": 480,
+      "start": 464,
+      "end": 465,
       "loc": {
         "start": {
           "line": 16,
@@ -1347,8 +1347,8 @@
         "updateContext": null
       },
       "value": "null",
-      "start": 481,
-      "end": 485,
+      "start": 466,
+      "end": 470,
       "loc": {
         "start": {
           "line": 16,
@@ -1372,8 +1372,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 485,
-      "end": 486,
+      "start": 470,
+      "end": 471,
       "loc": {
         "start": {
           "line": 16,
@@ -1397,8 +1397,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 487,
-      "end": 488,
+      "start": 472,
+      "end": 473,
       "loc": {
         "start": {
           "line": 16,
@@ -1412,9 +1412,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The distance from the origin of the ray to the point.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-      "start": 494,
-      "end": 591,
+      "value": "*\n\t\t * The distance from the origin of the ray to the point.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+      "start": 477,
+      "end": 570,
       "loc": {
         "start": {
           "line": 18,
@@ -1441,8 +1441,8 @@
         "updateContext": null
       },
       "value": "this",
-      "start": 597,
-      "end": 601,
+      "start": 574,
+      "end": 578,
       "loc": {
         "start": {
           "line": 24,
@@ -1467,8 +1467,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 601,
-      "end": 602,
+      "start": 578,
+      "end": 579,
       "loc": {
         "start": {
           "line": 24,
@@ -1493,8 +1493,8 @@
         "binop": null
       },
       "value": "distance",
-      "start": 602,
-      "end": 610,
+      "start": 579,
+      "end": 587,
       "loc": {
         "start": {
           "line": 24,
@@ -1520,8 +1520,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 611,
-      "end": 612,
+      "start": 588,
+      "end": 589,
       "loc": {
         "start": {
           "line": 24,
@@ -1546,8 +1546,8 @@
         "binop": null
       },
       "value": "distance",
-      "start": 613,
-      "end": 621,
+      "start": 590,
+      "end": 598,
       "loc": {
         "start": {
           "line": 24,
@@ -1572,8 +1572,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 621,
-      "end": 622,
+      "start": 598,
+      "end": 599,
       "loc": {
         "start": {
           "line": 24,
@@ -1587,9 +1587,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The shortest distance from the point to the ray.\r\n\t\t *\r\n\t\t * @type {Number}\r\n\t\t ",
-      "start": 628,
-      "end": 720,
+      "value": "*\n\t\t * The shortest distance from the point to the ray.\n\t\t *\n\t\t * @type {Number}\n\t\t ",
+      "start": 603,
+      "end": 691,
       "loc": {
         "start": {
           "line": 26,
@@ -1616,8 +1616,8 @@
         "updateContext": null
       },
       "value": "this",
-      "start": 726,
-      "end": 730,
+      "start": 695,
+      "end": 699,
       "loc": {
         "start": {
           "line": 32,
@@ -1642,8 +1642,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 730,
-      "end": 731,
+      "start": 699,
+      "end": 700,
       "loc": {
         "start": {
           "line": 32,
@@ -1668,8 +1668,8 @@
         "binop": null
       },
       "value": "distanceToRay",
-      "start": 731,
-      "end": 744,
+      "start": 700,
+      "end": 713,
       "loc": {
         "start": {
           "line": 32,
@@ -1695,8 +1695,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 745,
-      "end": 746,
+      "start": 714,
+      "end": 715,
       "loc": {
         "start": {
           "line": 32,
@@ -1721,8 +1721,8 @@
         "binop": null
       },
       "value": "distanceToRay",
-      "start": 747,
-      "end": 760,
+      "start": 716,
+      "end": 729,
       "loc": {
         "start": {
           "line": 32,
@@ -1747,8 +1747,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 760,
-      "end": 761,
+      "start": 729,
+      "end": 730,
       "loc": {
         "start": {
           "line": 32,
@@ -1762,9 +1762,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The point.\r\n\t\t *\r\n\t\t * @type {Vector3}\r\n\t\t ",
-      "start": 767,
-      "end": 822,
+      "value": "*\n\t\t * The point.\n\t\t *\n\t\t * @type {Vector3}\n\t\t ",
+      "start": 734,
+      "end": 785,
       "loc": {
         "start": {
           "line": 34,
@@ -1791,8 +1791,8 @@
         "updateContext": null
       },
       "value": "this",
-      "start": 828,
-      "end": 832,
+      "start": 789,
+      "end": 793,
       "loc": {
         "start": {
           "line": 40,
@@ -1817,8 +1817,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 832,
-      "end": 833,
+      "start": 793,
+      "end": 794,
       "loc": {
         "start": {
           "line": 40,
@@ -1843,8 +1843,8 @@
         "binop": null
       },
       "value": "point",
-      "start": 833,
-      "end": 838,
+      "start": 794,
+      "end": 799,
       "loc": {
         "start": {
           "line": 40,
@@ -1870,8 +1870,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 839,
-      "end": 840,
+      "start": 800,
+      "end": 801,
       "loc": {
         "start": {
           "line": 40,
@@ -1896,8 +1896,8 @@
         "binop": null
       },
       "value": "point",
-      "start": 841,
-      "end": 846,
+      "start": 802,
+      "end": 807,
       "loc": {
         "start": {
           "line": 40,
@@ -1922,8 +1922,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 846,
-      "end": 847,
+      "start": 807,
+      "end": 808,
       "loc": {
         "start": {
           "line": 40,
@@ -1937,9 +1937,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n\t\t * The point's data.\r\n\t\t *\r\n\t\t * @type {Object}\r\n\t\t ",
-      "start": 853,
-      "end": 914,
+      "value": "*\n\t\t * The point's data.\n\t\t *\n\t\t * @type {Object}\n\t\t ",
+      "start": 812,
+      "end": 869,
       "loc": {
         "start": {
           "line": 42,
@@ -1966,8 +1966,8 @@
         "updateContext": null
       },
       "value": "this",
-      "start": 920,
-      "end": 924,
+      "start": 873,
+      "end": 877,
       "loc": {
         "start": {
           "line": 48,
@@ -1992,8 +1992,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 924,
-      "end": 925,
+      "start": 877,
+      "end": 878,
       "loc": {
         "start": {
           "line": 48,
@@ -2018,8 +2018,8 @@
         "binop": null
       },
       "value": "object",
-      "start": 925,
-      "end": 931,
+      "start": 878,
+      "end": 884,
       "loc": {
         "start": {
           "line": 48,
@@ -2045,8 +2045,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 932,
-      "end": 933,
+      "start": 885,
+      "end": 886,
       "loc": {
         "start": {
           "line": 48,
@@ -2071,8 +2071,8 @@
         "binop": null
       },
       "value": "object",
-      "start": 934,
-      "end": 940,
+      "start": 887,
+      "end": 893,
       "loc": {
         "start": {
           "line": 48,
@@ -2097,8 +2097,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 940,
-      "end": 941,
+      "start": 893,
+      "end": 894,
       "loc": {
         "start": {
           "line": 48,
@@ -2122,8 +2122,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 946,
-      "end": 947,
+      "start": 897,
+      "end": 898,
       "loc": {
         "start": {
           "line": 50,
@@ -2147,8 +2147,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 951,
-      "end": 952,
+      "start": 900,
+      "end": 901,
       "loc": {
         "start": {
           "line": 52,
@@ -2173,8 +2173,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 954,
-      "end": 954,
+      "start": 902,
+      "end": 902,
       "loc": {
         "start": {
           "line": 53,
